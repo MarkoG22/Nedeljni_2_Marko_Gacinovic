@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,20 +17,14 @@ using System.Windows.Shapes;
 namespace MedicalInstitution.View
 {
     /// <summary>
-    /// Interaction logic for MasterView.xaml
+    /// Interaction logic for EditUserView.xaml
     /// </summary>
-    public partial class MasterView : Window
+    public partial class EditUserView : Window
     {
-        public MasterView()
+        public EditUserView(tblUser user)
         {
             InitializeComponent();
-            this.DataContext = new MasterViewModel(this);
-        }
-
-        private void LettersValidationTextBox(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^a-zA-Z ]+");
-            e.Handled = regex.IsMatch(e.Text);
+            this.DataContext = new EditUserViewModel(this, user);
         }
     }
 }

@@ -5,8 +5,63 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MedicalInstitution.View"
         mc:Ignorable="d"
-        Title="ClinicAdministrator" Height="450" Width="800">
+        Title="ClinicAdministrator" Height="450" Width="1000">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="1" Grid.Row="1" Height="auto" Width="auto">
+            <DataGrid Name="DataGridUsers" ItemsSource="{Binding UserList, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding User, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
+                      AutoGenerateColumns="False"
+                      HorizontalGridLinesBrush="Black" BorderBrush="Black" Foreground="Black"
+                      FontWeight="Bold" Margin="20">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="User ID" Binding="{Binding UserId}"/>
+                    <DataGridTextColumn Header="Full Name" Binding="{Binding FullName}"/>
+                    <DataGridTextColumn Header="ID Card" Binding="{Binding IdCard}"/>
+                    <DataGridTextColumn Header="Gender" Binding="{Binding Gender}"/>
+                    <DataGridTextColumn Header="Birthdate" Binding="{Binding Birthdate, StringFormat=dd/MM/yyyy}"/>
+                    <DataGridTextColumn Header="Citizenship" Binding="{Binding Citizenship}"/>
+                    <DataGridTextColumn Header="Manager" Binding="{Binding Manager}"/>
+                    <DataGridTextColumn Header="Username" Binding="{Binding Username}"/>
+                    <DataGridTextColumn Header="Password" Binding="{Binding Password}"/>                    
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="btnDeleteUser" Content="X" 
+                                Command="{Binding DataContext.DeleteUser, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        Margin="4" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="btnEditUser" Content="Edit" 
+                                Command="{Binding DataContext.EditUser, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        Margin="4" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+            <Button Width="100" Height="20" Name="btnAddUser" Content="Add New User"
+                    Command="{Binding AddNewUser, UpdateSourceTrigger=PropertyChanged}" Margin="20,4,4,4" FontWeight="Bold"/>
+        </StackPanel>        
     </Grid>
 </Window>

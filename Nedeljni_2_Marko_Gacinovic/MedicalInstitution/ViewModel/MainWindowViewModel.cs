@@ -84,7 +84,7 @@ namespace MedicalInstitution.ViewModel
             }
             else if (IsAdmin(username,UserPassword))
             {
-                ClinicAdministrator admin = new ClinicAdministrator(user);
+                ClinicAdministrator admin = new ClinicAdministrator();
                 if (FirstLogin(username,userPassword))
                 {
                     CreateHospitalView hospital = new CreateHospitalView(user);
@@ -177,7 +177,7 @@ namespace MedicalInstitution.ViewModel
             {
                 using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
                 {
-                    user = (from x in context.tblUsers where x.Username == username && x.Pasword == password select x).First();
+                    tblUser user = (from x in context.tblUsers where x.Username == username && x.Pasword == password select x).First();
                     if (user.LoggedIn == false)
                     {
                         return true;

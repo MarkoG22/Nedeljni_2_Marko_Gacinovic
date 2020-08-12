@@ -26,8 +26,8 @@ namespace MedicalInstitution.ViewModel
 
         public MasterViewModel(MasterView masterViewOpen)
         {
-            masterView = masterViewOpen;
-            user = new tblUser();
+            masterView = masterViewOpen;            
+            user = new tblUser();            
         }
 
         // commands
@@ -84,7 +84,6 @@ namespace MedicalInstitution.ViewModel
 
                     newUser.LoggedIn = false;
                     newUser.UserId = user.UserId;
-
 
                     context.tblUsers.Add(newUser);
                     context.SaveChanges();

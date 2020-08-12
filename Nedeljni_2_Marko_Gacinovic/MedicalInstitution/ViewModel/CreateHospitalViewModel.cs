@@ -23,17 +23,16 @@ namespace MedicalInstitution.ViewModel
         }
 
         private tblUser user;
-
         public tblUser User
         {
             get { return user; }
-            set { user = value; }
+            set { user = value; OnPropertyChanged("User"); }
         }
 
 
         public CreateHospitalViewModel(CreateHospitalView createHospitalOpen, tblUser userToPass)
         {
-            user = userToPass;
+            userToPass = user;
             createHospital = createHospitalOpen;
             hospital = new tblHospital();
         }
@@ -84,7 +83,7 @@ namespace MedicalInstitution.ViewModel
                     newHospital.InvalidPoint = hospital.InvalidPoint;
                     newHospital.HospitalID = hospital.HospitalID;
 
-                    user.LoggedIn = true;
+                    //user.LoggedIn = true;
 
                     context.tblHospitals.Add(newHospital);
                     context.SaveChanges();
