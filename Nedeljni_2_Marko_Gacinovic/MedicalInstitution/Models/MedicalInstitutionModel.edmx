@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MedicalInstitutionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MedicalInstitutionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tblDoctor">
           <Key>
             <PropertyRef Name="DoctorID" />
@@ -85,6 +85,7 @@
           <Property Name="Manager" Type="bit" Nullable="false" />
           <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Pasword" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LoggedIn" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MedicalInstitution.dbo.vwDoctor' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -110,6 +111,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwDoctor' does not have a p
           <Property Name="Manager" Type="bit" Nullable="false" />
           <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Pasword" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LoggedIn" Type="bit" />
           <Property Name="DoctorID" Type="int" Nullable="false" />
           <Property Name="AccountNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="Department" Type="nvarchar" MaxLength="50" />
@@ -145,6 +147,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwMaintance' does not have 
           <Property Name="Manager" Type="bit" Nullable="false" />
           <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Pasword" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LoggedIn" Type="bit" />
           <Property Name="MaintanceID" Type="int" Nullable="false" />
           <Property Name="AmbulanceDuty" Type="bit" Nullable="false" />
           <Property Name="GrowPermision" Type="bit" Nullable="false" />
@@ -174,6 +177,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwManager' does not have a 
           <Property Name="Manager" Type="bit" Nullable="false" />
           <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Pasword" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LoggedIn" Type="bit" />
           <Property Name="ManagerID" Type="int" Nullable="false" />
           <Property Name="HospitalLevel" Type="int" />
           <Property Name="MaxDoctors" Type="int" />
@@ -204,12 +208,13 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
           <Property Name="Manager" Type="bit" Nullable="false" />
           <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Pasword" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LoggedIn" Type="bit" />
           <Property Name="CardNumber" Type="nvarchar" MaxLength="40" />
           <Property Name="PatientID" Type="int" Nullable="false" />
           <Property Name="DateExpire" Type="date" />
           <Property Name="DoctorID" Type="int" />
         </EntityType>
-        <Association Name="FK__tblDoctor__Manag__628FA481">
+        <Association Name="FK__tblDoctor__Manag__0697FACD">
           <End Role="tblManager" Type="Self.tblManager" Multiplicity="0..1" />
           <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="*" />
           <ReferentialConstraint>
@@ -221,7 +226,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblDoctor__Shift__6383C8BA">
+        <Association Name="FK__tblDoctor__Shift__078C1F06">
           <End Role="tblShift" Type="Self.tblShift" Multiplicity="0..1" />
           <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="*" />
           <ReferentialConstraint>
@@ -233,7 +238,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblDoctor__UserI__619B8048">
+        <Association Name="FK__tblDoctor__UserI__05A3D694">
           <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
           <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="*" />
           <ReferentialConstraint>
@@ -245,7 +250,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblMainta__UserI__5FB337D6">
+        <Association Name="FK__tblMainta__UserI__03BB8E22">
           <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
           <End Role="tblMaintance" Type="Self.tblMaintance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -257,7 +262,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblManage__UserI__60A75C0F">
+        <Association Name="FK__tblManage__UserI__04AFB25B">
           <End Role="tblUser" Type="Self.tblUser" Multiplicity="1" />
           <End Role="tblManager" Type="Self.tblManager" Multiplicity="*" />
           <ReferentialConstraint>
@@ -269,7 +274,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblPatien__Docto__656C112C">
+        <Association Name="FK__tblPatien__Docto__09746778">
           <End Role="tblDoctor" Type="Self.tblDoctor" Multiplicity="0..1" />
           <End Role="tblPatient" Type="Self.tblPatient" Multiplicity="*" />
           <ReferentialConstraint>
@@ -281,7 +286,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblPatien__UserI__6477ECF3">
+        <Association Name="FK__tblPatien__UserI__0880433F">
           <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
           <End Role="tblPatient" Type="Self.tblPatient" Multiplicity="*" />
           <ReferentialConstraint>
@@ -312,6 +317,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
     [vwDoctor].[Manager] AS [Manager], 
     [vwDoctor].[Username] AS [Username], 
     [vwDoctor].[Pasword] AS [Pasword], 
+    [vwDoctor].[LoggedIn] AS [LoggedIn], 
     [vwDoctor].[DoctorID] AS [DoctorID], 
     [vwDoctor].[AccountNumber] AS [AccountNumber], 
     [vwDoctor].[Department] AS [Department], 
@@ -332,6 +338,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
     [vwMaintance].[Manager] AS [Manager], 
     [vwMaintance].[Username] AS [Username], 
     [vwMaintance].[Pasword] AS [Pasword], 
+    [vwMaintance].[LoggedIn] AS [LoggedIn], 
     [vwMaintance].[MaintanceID] AS [MaintanceID], 
     [vwMaintance].[AmbulanceDuty] AS [AmbulanceDuty], 
     [vwMaintance].[GrowPermision] AS [GrowPermision], 
@@ -349,6 +356,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
     [vwManager].[Manager] AS [Manager], 
     [vwManager].[Username] AS [Username], 
     [vwManager].[Pasword] AS [Pasword], 
+    [vwManager].[LoggedIn] AS [LoggedIn], 
     [vwManager].[ManagerID] AS [ManagerID], 
     [vwManager].[HospitalLevel] AS [HospitalLevel], 
     [vwManager].[MaxDoctors] AS [MaxDoctors], 
@@ -367,43 +375,43 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
     [vwPatient].[Manager] AS [Manager], 
     [vwPatient].[Username] AS [Username], 
     [vwPatient].[Pasword] AS [Pasword], 
+    [vwPatient].[LoggedIn] AS [LoggedIn], 
     [vwPatient].[CardNumber] AS [CardNumber], 
     [vwPatient].[PatientID] AS [PatientID], 
     [vwPatient].[DateExpire] AS [DateExpire], 
     [vwPatient].[DoctorID] AS [DoctorID]
     FROM [dbo].[vwPatient] AS [vwPatient]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK__tblDoctor__Manag__628FA481" Association="Self.FK__tblDoctor__Manag__628FA481">
+          <AssociationSet Name="FK__tblDoctor__Manag__0697FACD" Association="Self.FK__tblDoctor__Manag__0697FACD">
             <End Role="tblManager" EntitySet="tblManager" />
             <End Role="tblDoctor" EntitySet="tblDoctor" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblDoctor__Shift__6383C8BA" Association="Self.FK__tblDoctor__Shift__6383C8BA">
+          <AssociationSet Name="FK__tblDoctor__Shift__078C1F06" Association="Self.FK__tblDoctor__Shift__078C1F06">
             <End Role="tblShift" EntitySet="tblShift" />
             <End Role="tblDoctor" EntitySet="tblDoctor" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblDoctor__UserI__619B8048" Association="Self.FK__tblDoctor__UserI__619B8048">
+          <AssociationSet Name="FK__tblDoctor__UserI__05A3D694" Association="Self.FK__tblDoctor__UserI__05A3D694">
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblDoctor" EntitySet="tblDoctor" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblMainta__UserI__5FB337D6" Association="Self.FK__tblMainta__UserI__5FB337D6">
+          <AssociationSet Name="FK__tblMainta__UserI__03BB8E22" Association="Self.FK__tblMainta__UserI__03BB8E22">
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblMaintance" EntitySet="tblMaintance" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblManage__UserI__60A75C0F" Association="Self.FK__tblManage__UserI__60A75C0F">
+          <AssociationSet Name="FK__tblManage__UserI__04AFB25B" Association="Self.FK__tblManage__UserI__04AFB25B">
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblManager" EntitySet="tblManager" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblPatien__Docto__656C112C" Association="Self.FK__tblPatien__Docto__656C112C">
+          <AssociationSet Name="FK__tblPatien__Docto__09746778" Association="Self.FK__tblPatien__Docto__09746778">
             <End Role="tblDoctor" EntitySet="tblDoctor" />
             <End Role="tblPatient" EntitySet="tblPatient" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblPatien__UserI__6477ECF3" Association="Self.FK__tblPatien__UserI__6477ECF3">
+          <AssociationSet Name="FK__tblPatien__UserI__0880433F" Association="Self.FK__tblPatien__UserI__0880433F">
             <End Role="tblUser" EntitySet="tblUser" />
             <End Role="tblPatient" EntitySet="tblPatient" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MedicalInstitutionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -501,6 +509,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
           <NavigationProperty Name="tblMaintances" Relationship="Self.FK__tblMainta__UserI__5FB337D6" FromRole="tblUser" ToRole="tblMaintance" />
           <NavigationProperty Name="tblManagers" Relationship="Self.FK__tblManage__UserI__60A75C0F" FromRole="tblUser" ToRole="tblManager" />
           <NavigationProperty Name="tblPatients" Relationship="Self.FK__tblPatien__UserI__6477ECF3" FromRole="tblUser" ToRole="tblPatient" />
+          <Property Name="LoggedIn" Type="Boolean" />
         </EntityType>
         <EntityType Name="vwDoctor">
           <Key>
@@ -531,6 +540,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
           <Property Name="Reception" Type="Boolean" />
           <Property Name="ShiftID" Type="Int32" />
           <Property Name="UniqueNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LoggedIn" Type="Boolean" />
         </EntityType>
         <EntityType Name="vwMaintance">
           <Key>
@@ -561,6 +571,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
           <Property Name="AmbulanceDuty" Type="Boolean" Nullable="false" />
           <Property Name="GrowPermision" Type="Boolean" Nullable="false" />
           <Property Name="InvalidDuty" Type="Boolean" Nullable="false" />
+          <Property Name="LoggedIn" Type="Boolean" />
         </EntityType>
         <EntityType Name="vwManager">
           <Key>
@@ -589,6 +600,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
           <Property Name="MaxDoctors" Type="Int32" />
           <Property Name="MinRooms" Type="Int32" />
           <Property Name="Erors" Type="Int32" />
+          <Property Name="LoggedIn" Type="Boolean" />
         </EntityType>
         <EntityType Name="vwPatient">
           <Key>
@@ -616,6 +628,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
           <Property Name="PatientID" Type="Int32" Nullable="false" />
           <Property Name="DateExpire" Type="DateTime" Precision="0" />
           <Property Name="DoctorID" Type="Int32" />
+          <Property Name="LoggedIn" Type="Boolean" />
         </EntityType>
         <Association Name="FK__tblDoctor__Manag__628FA481">
           <End Role="tblManager" Type="Self.tblManager" Multiplicity="0..1" />
@@ -824,6 +837,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
           <EntitySetMapping Name="tblUsers">
             <EntityTypeMapping TypeName="MedicalInstitutionModel.tblUser">
               <MappingFragment StoreEntitySet="tblUser">
+                <ScalarProperty Name="LoggedIn" ColumnName="LoggedIn" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="IdCard" ColumnName="IdCard" />
@@ -839,6 +853,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
           <EntitySetMapping Name="vwDoctors">
             <EntityTypeMapping TypeName="MedicalInstitutionModel.vwDoctor">
               <MappingFragment StoreEntitySet="vwDoctor">
+                <ScalarProperty Name="LoggedIn" ColumnName="LoggedIn" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="IdCard" ColumnName="IdCard" />
@@ -861,6 +876,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
           <EntitySetMapping Name="vwMaintances">
             <EntityTypeMapping TypeName="MedicalInstitutionModel.vwMaintance">
               <MappingFragment StoreEntitySet="vwMaintance">
+                <ScalarProperty Name="LoggedIn" ColumnName="LoggedIn" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="IdCard" ColumnName="IdCard" />
@@ -880,6 +896,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
           <EntitySetMapping Name="vwManagers">
             <EntityTypeMapping TypeName="MedicalInstitutionModel.vwManager">
               <MappingFragment StoreEntitySet="vwManager">
+                <ScalarProperty Name="LoggedIn" ColumnName="LoggedIn" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="IdCard" ColumnName="IdCard" />
@@ -900,6 +917,7 @@ warning 6002: The table/view 'MedicalInstitution.dbo.vwPatient' does not have a 
           <EntitySetMapping Name="vwPatients">
             <EntityTypeMapping TypeName="MedicalInstitutionModel.vwPatient">
               <MappingFragment StoreEntitySet="vwPatient">
+                <ScalarProperty Name="LoggedIn" ColumnName="LoggedIn" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="IdCard" ColumnName="IdCard" />

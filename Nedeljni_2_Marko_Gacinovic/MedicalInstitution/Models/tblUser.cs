@@ -32,6 +32,7 @@ namespace MedicalInstitution.Models
         public bool Manager { get; set; }
         public string Username { get; set; }
         public string Pasword { get; set; }
+        public Nullable<bool> LoggedIn { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblDoctor> tblDoctors { get; set; }

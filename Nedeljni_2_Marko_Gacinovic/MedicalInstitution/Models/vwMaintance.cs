@@ -27,5 +27,6 @@ namespace MedicalInstitution.Models
         public bool AmbulanceDuty { get; set; }
         public bool GrowPermision { get; set; }
         public bool InvalidDuty { get; set; }
+        public Nullable<bool> LoggedIn { get; set; }
     }
 }

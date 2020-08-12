@@ -12,20 +12,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MedicalInstitution
+namespace MedicalInstitution.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ClinicAdministrator.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ClinicAdministrator : Window
     {
-        public MainWindow()
+        public ClinicAdministrator(tblUser user)
         {
             InitializeComponent();
-            this.DataContext = new MainWindowViewModel(this);
+            this.DataContext = new ClinicAdministratorViewModel(this, user);
         }
     }
 }

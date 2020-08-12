@@ -28,5 +28,6 @@ namespace MedicalInstitution.Models
         public Nullable<int> MaxDoctors { get; set; }
         public Nullable<int> MinRooms { get; set; }
         public Nullable<int> Erors { get; set; }
+        public Nullable<bool> LoggedIn { get; set; }
     }
 }

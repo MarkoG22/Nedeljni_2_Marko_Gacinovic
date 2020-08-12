@@ -1,4 +1,5 @@
 ﻿using MedicalInstitution.Commands;
+using MedicalInstitution.Models;
 using MedicalInstitution.View;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,6 @@ namespace MedicalInstitution.ViewModel
                 username = value;
                 OnPropertyChanged("Username");
             }
-
         }
 
         private string userPassword;
@@ -39,9 +39,17 @@ namespace MedicalInstitution.ViewModel
             }
         }
 
+        private tblUser user;
+        public tblUser User
+        {
+            get { return user; }
+            set { user = value; }
+        }
+
+
         // constructor
         public MainWindowViewModel(MainWindow mainOpen)
-        {
+        {            
             main = mainOpen;
         }
 
@@ -68,11 +76,22 @@ namespace MedicalInstitution.ViewModel
         /// method for checking username and password and opening the windows
         /// </summary>
         private void SaveExecute()
-        {
+        {  
             if (IsMaster(username, userPassword))
             {
                 MasterView master = new MasterView();
                 master.ShowDialog();
+            }
+            else if (IsAdmin(username,UserPassword))
+            {
+                ClinicAdministrator admin = new ClinicAdministrator(user);
+                if (FirstLogin(username,userPassword))
+                {
+                    CreateHospitalView hospital = new CreateHospitalView(user);
+                    hospital.ShowDialog();
+                }
+                
+                admin.ShowDialog();
             }
             else
             {
@@ -116,32 +135,59 @@ namespace MedicalInstitution.ViewModel
 
         private bool IsMaster(string username, string password)
         {
+            string[] lines = File.ReadAllLines(@"../../ClinicAccess.txt");
+            List<string> list = new List<string>();
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (lines[i] == "")
+                {
+                    continue;
+                }
+                list = lines[i].Split(':').ToList();
+                if (username == list[1] || password == list[1])
+                {
+                    return true;                    
+                }                
+            }
+            return false;
+        }
+
+        private bool IsAdmin(string username, string password)
+        {
             try
             {
-                string[] lines = File.ReadAllLines(@"../../ClinicAccess.txt");
-                List<string> list = new List<string>();
-
-                for (int i = 0; i < lines.Length; i++)
+                using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
                 {
-                    if (lines[i] == "")
-                    {
-                        continue;
-                    }
-                    list = lines[i].Split(':').ToList();
-                    if (i==0)
-                    {
-                        username = list[1];
-                    }
-                    else if (i == 1)
-                    {
-                        password = list[1];
-                    }
+                    tblUser user = (from x in context.tblUsers where x.Username == username && x.Pasword == password select x).First();
+                    bool isManager = user.Manager;
+                    return isManager;
                 }
-                return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Wrong inputs, please check the file credentials.");
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                return false;
+            }
+        }
+
+        private bool FirstLogin(string username, string password)
+        {
+            try
+            {
+                using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
+                {
+                    user = (from x in context.tblUsers where x.Username == username && x.Pasword == password select x).First();
+                    if (user.LoggedIn == false)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
                 return false;
             }
         }

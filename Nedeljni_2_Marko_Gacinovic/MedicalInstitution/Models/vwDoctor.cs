@@ -30,5 +30,6 @@ namespace MedicalInstitution.Models
         public Nullable<bool> Reception { get; set; }
         public Nullable<int> ShiftID { get; set; }
         public string UniqueNumber { get; set; }
+        public Nullable<bool> LoggedIn { get; set; }
     }
 }

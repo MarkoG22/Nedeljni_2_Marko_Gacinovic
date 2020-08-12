@@ -27,5 +27,6 @@ namespace MedicalInstitution.Models
         public int PatientID { get; set; }
         public Nullable<System.DateTime> DateExpire { get; set; }
         public Nullable<int> DoctorID { get; set; }
+        public Nullable<bool> LoggedIn { get; set; }
     }
 }
