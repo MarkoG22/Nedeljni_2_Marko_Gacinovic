@@ -241,7 +241,44 @@ namespace MedicalInstitution.ViewModel
             }
         }
 
+        // command for editing the user
+        private ICommand editHospital;
+        public ICommand EditHospital
+        {
+            get
+            {
+                if (editHospital == null)
+                {
+                    editHospital = new RelayCommand(param => EditHospitalExecute(), param => CanEditHospitalExecute());
+                }
+                return editHospital;
+            }
+        }
 
+        private bool CanEditHospitalExecute()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// method for opening the view for the editing user
+        /// </summary>
+        private void EditHospitalExecute()
+        {
+            try
+            {
+                EditHospitalView editHospital = new EditHospitalView(hospital);
+                editHospital.ShowDialog();
+                if ((editHospital.DataContext as EditHospitalViewModel).IsUpdateHospital == true)
+                {
+                    HospitalList = GetAllHospital().ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+            }
+        }
 
 
         private List<tblUser> GetAllUser()

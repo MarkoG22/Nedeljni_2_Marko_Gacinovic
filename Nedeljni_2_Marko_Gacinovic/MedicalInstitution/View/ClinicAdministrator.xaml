@@ -62,6 +62,36 @@
         <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
             <Button Width="100" Height="20" Name="btnAddUser" Content="Add New User"
                     Command="{Binding AddNewUser, UpdateSourceTrigger=PropertyChanged}" Margin="20,4,4,4" FontWeight="Bold"/>
-        </StackPanel>        
+        </StackPanel>
+        <Grid Grid.Column="1" Grid.Row="3" Height="auto" Width="auto">
+            <DataGrid Name="DataGridHospitals" ItemsSource="{Binding HospitalList, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding Hospital, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
+                      AutoGenerateColumns="False"
+                      HorizontalGridLinesBrush="Black" BorderBrush="Black" Foreground="Black"
+                      FontWeight="Bold" Margin="20">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Hospital ID" Binding="{Binding HospitalID}"/>
+                    <DataGridTextColumn Header="Hospital Name" Binding="{Binding HospitalName}"/>
+                    <DataGridTextColumn Header="Adress" Binding="{Binding Adress}"/>
+                    <DataGridTextColumn Header="Date of Construction" Binding="{Binding StartDate, StringFormat=dd/MM/yyyy}"/>
+                    <DataGridTextColumn Header="Owner" Binding="{Binding Owns}"/>
+                    <DataGridTextColumn Header="Flors" Binding="{Binding Flors}"/>
+                    <DataGridTextColumn Header="Levels" Binding="{Binding Levels}"/>
+                    <DataGridTextColumn Header="Balcony" Binding="{Binding Balcony}"/>
+                    <DataGridTextColumn Header="Yard" Binding="{Binding Yard}"/>
+                    <DataGridTextColumn Header="Ambulance point" Binding="{Binding AmbulancePoint}"/>
+                    <DataGridTextColumn Header="Invalid point" Binding="{Binding InvalidPoint}"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="btnEditHospital" Content="Edit" 
+                                Command="{Binding DataContext.EditHospital, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        Margin="4" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>        
     </Grid>
 </Window>
