@@ -21,6 +21,12 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid Grid.Column="1" Grid.Row="1" Height="auto" Width="auto">
             <DataGrid Name="DataGridUsers" ItemsSource="{Binding UserList, UpdateSourceTrigger=PropertyChanged}"
@@ -92,6 +98,46 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-        </Grid>        
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="9" Height="auto" Width="auto">
+            <DataGrid Name="DataGridDoctors" ItemsSource="{Binding UserList, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding User, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
+                      AutoGenerateColumns="False"
+                      HorizontalGridLinesBrush="Black" BorderBrush="Black" Foreground="Black"
+                      FontWeight="Bold" Margin="20">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Doctor ID" Binding="{Binding DoctorID}"/>
+                    <DataGridTextColumn Header="User ID" Binding="{Binding UserID}"/>
+                    <DataGridTextColumn Header="Department" Binding="{Binding Department}"/>
+                    <DataGridTextColumn Header="Unique Number" Binding="{Binding UniqueNumber}"/>
+                    <DataGridTextColumn Header="Account Number" Binding="{Binding AccountNumber}"/>
+                    <DataGridTextColumn Header="Shift ID" Binding="{Binding ShiftID}"/>
+                    <DataGridTextColumn Header="Reception" Binding="{Binding Reception}"/>
+                    <DataGridTextColumn Header="Manager ID" Binding="{Binding ManagerID}"/> 
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="btnDeleteDoctor" Content="X" 
+                                Command="{Binding DataContext.DeleteDoctor, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        Margin="4" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="btnEditDoctor" Content="Edit" 
+                                Command="{Binding DataContext.EditDoctor, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        Margin="4" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <StackPanel Grid.Column="1" Grid.Row="10" Orientation="Horizontal">
+            <Button Width="100" Height="20" Name="btnAddDoctor" Content="Add New Doctor"
+                    Command="{Binding AddNewDoctor, UpdateSourceTrigger=PropertyChanged}" Margin="20,4,4,4" FontWeight="Bold"/>
+        </StackPanel>
     </Grid>
 </Window>

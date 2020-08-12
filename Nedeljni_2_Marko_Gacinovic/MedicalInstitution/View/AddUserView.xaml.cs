@@ -1,7 +1,9 @@
-﻿using System;
+﻿using MedicalInstitution.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,6 +24,13 @@ namespace MedicalInstitution.View
         public AddUserView()
         {
             InitializeComponent();
+            this.DataContext = new AddUserViewModel(this);
+        }
+
+        private void LettersValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^a-zA-Z ]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }
