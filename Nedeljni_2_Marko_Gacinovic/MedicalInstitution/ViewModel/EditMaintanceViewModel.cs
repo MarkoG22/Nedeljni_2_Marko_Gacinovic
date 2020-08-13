@@ -11,31 +11,39 @@ using System.Windows.Input;
 
 namespace MedicalInstitution.ViewModel
 {
-    class EditHospitalViewModel : ViewModelBase
+    class EditMaintanceViewModel : ViewModelBase
     {
-        EditHospitalView editHospitalView;
+        EditMaintanceView editMaintance;
 
-        private tblHospital hospital;
-        public tblHospital Hospital
+        // properties
+        private tblUser user;
+        public tblUser User
         {
-            get { return hospital; }
-            set { hospital = value; OnPropertyChanged("Hospital"); }
+            get { return user; }
+            set { user = value; OnPropertyChanged("User"); }
         }
 
-        private bool isUpdateHospital;
-        public bool IsUpdateHospital
+        private tblMaintance maintance;
+        public tblMaintance Maintance
         {
-            get { return isUpdateHospital; }
-            set { isUpdateHospital = value; }
+            get { return maintance; }
+            set { maintance = value; OnPropertyChanged("Maintance"); }
         }
 
-        public EditHospitalViewModel(EditHospitalView editHospitalOpen, tblHospital hospitalToPass)
+        private bool isUpdateMaintance;
+        public bool IsUpdateMaintance
         {
-            editHospitalView = editHospitalOpen;
-            hospital = hospitalToPass;
+            get { return isUpdateMaintance; }
+            set { isUpdateMaintance = value; }
         }
 
-        // command for editing the user
+        public EditMaintanceViewModel(EditMaintanceView editMaintanceOpen, tblMaintance maintanceToPass)
+        {
+            editMaintance = editMaintanceOpen;
+            maintance = maintanceToPass;
+        }
+
+        // commands
         private ICommand save;
         public ICommand Save
         {
@@ -47,15 +55,10 @@ namespace MedicalInstitution.ViewModel
                 }
                 return save;
             }
-            set { save = value; }
         }
 
         private bool CanSaveExecute()
         {
-            if (string.IsNullOrEmpty(hospital.Owns))
-            {
-                return false;
-            }
             return true;
         }
 
@@ -65,40 +68,35 @@ namespace MedicalInstitution.ViewModel
             {
                 using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
                 {
-                    int id = hospital.HospitalID;
+                    int id = maintance.MaintanceID;
 
-                    tblHospital hospitalToEdit = (from x in context.tblHospitals where x.HospitalID == id select x).First();
+                    tblMaintance maintanceToEdit = (from x in context.tblMaintances where x.MaintanceID == id select x).First();
 
-                    hospitalToEdit.Owns = hospital.Owns;
-                    if (hospital.InvalidPoint > hospitalToEdit.InvalidPoint)
+                    maintanceToEdit.GrowPermision = maintance.GrowPermision;
+                    maintanceToEdit.InvalidDuty = maintance.InvalidDuty;
+
+                    if (maintanceToEdit.InvalidDuty == true)
                     {
-                        hospitalToEdit.InvalidPoint = hospital.InvalidPoint;
+                        maintanceToEdit.AmbulanceDuty = false;
                     }
                     else
                     {
-                        MessageBox.Show("New point number must be bigger than previous.");
+                        maintanceToEdit.AmbulanceDuty = true;
                     }
 
-                    if (hospital.AmbulancePoint > hospitalToEdit.AmbulancePoint)
-                    {
-                        hospitalToEdit.AmbulancePoint = hospital.AmbulancePoint;
-                    }
-                    else
-                    {
-                        MessageBox.Show("New point number must be bigger than previous.");
-                    }
+                    tblUser viaUser = (from x in context.tblUsers where x.UserId == maintance.UserID select x).First();
+                    maintanceToEdit.UserID = viaUser.UserId;
+                    maintanceToEdit.MaintanceID = maintance.MaintanceID;
                     
-                    hospital.HospitalID = hospitalToEdit.HospitalID;
-
                     context.SaveChanges();
 
-                    isUpdateHospital = true;
+                    IsUpdateMaintance = true;
                 }
-                editHospitalView.Close();
+                editMaintance.Close();
             }
             catch (Exception)
             {
-                MessageBox.Show("Wrong input, please try again.");
+                MessageBox.Show("Wrong inputs, please check your inputs or try again.");
             }
         }
 
@@ -123,7 +121,7 @@ namespace MedicalInstitution.ViewModel
         {
             try
             {
-                editHospitalView.Close();
+                editMaintance.Close();
             }
             catch (Exception ex)
             {

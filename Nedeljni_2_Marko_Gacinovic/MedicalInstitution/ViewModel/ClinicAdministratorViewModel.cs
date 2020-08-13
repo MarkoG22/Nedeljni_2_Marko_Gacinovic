@@ -83,8 +83,8 @@ namespace MedicalInstitution.ViewModel
             set { maintance = value; OnPropertyChanged("Maintance"); }
         }
 
-        private List<tblMaintance> maintanceList;
-        public List<tblMaintance> MaintanceList
+        private Queue<tblMaintance> maintanceList;
+        public Queue<tblMaintance> MaintanceList
         {
             get { return maintanceList; }
             set { maintanceList = value; OnPropertyChanged("MaintanceList"); }
@@ -309,7 +309,7 @@ namespace MedicalInstitution.ViewModel
                 // updating the project list view
                 if ((addMaintance.DataContext as AddNewMaintanceViewModel).IsUpdateMaintance == true)
                 {
-                    MaintanceList = GetAllMaintance().ToList();
+                    MaintanceList = GetAllMaintance();
                 }
             }
             catch (Exception ex)
@@ -343,19 +343,19 @@ namespace MedicalInstitution.ViewModel
             {
                 using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
                 {
-                    int id = user.UserId;
+                    int id = maintance.MaintanceID;
 
                     // checking the action
                     MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to delete the maintance?", "Delete Confirmation", MessageBoxButton.YesNo);
 
                     if (messageBoxResult == MessageBoxResult.Yes)
                     {
-                        tblUser userToDelete = (from x in context.tblUsers where x.UserId == id select x).First();
+                        tblMaintance maintanceToDelete = (from x in context.tblMaintances where x.MaintanceID == id select x).First();
 
-                        context.tblUsers.Remove(userToDelete);
+                        context.tblMaintances.Remove(maintanceToDelete);
                         context.SaveChanges();
 
-                        UserList = GetAllUser();
+                        MaintanceList = GetAllMaintance();
                     }
                 }
             }
@@ -391,7 +391,12 @@ namespace MedicalInstitution.ViewModel
         {
             try
             {
-                // !!!
+                EditMaintanceView editMaintance = new EditMaintanceView(maintance);
+                editMaintance.ShowDialog();
+                if ((editMaintance.DataContext as EditMaintanceViewModel).IsUpdateMaintance == true)
+                {
+                    MaintanceList = GetAllMaintance();
+                }
             }
             catch (Exception ex)
             {
@@ -472,15 +477,26 @@ namespace MedicalInstitution.ViewModel
             }
         }
 
-        private List<tblMaintance> GetAllMaintance()
+        private Queue<tblMaintance> GetAllMaintance()
         {
             try
             {
                 using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
                 {
                     List<tblMaintance> list = new List<tblMaintance>();
-                    list = (from x in context.tblMaintances select x).ToList();
-                    return list;
+                    Queue<tblMaintance> q = new Queue<tblMaintance>();
+                    list = (from x in context.tblMaintances select x).ToList();                    
+
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        if (i>2)
+                        {
+                            q.Dequeue();                            
+                        }
+                        q.Enqueue(list[i]);
+                    }
+                    
+                    return q;
                 }
             }
             catch (Exception ex)
