@@ -11,17 +11,11 @@ using System.Windows.Input;
 
 namespace MedicalInstitution.ViewModel
 {
-    class CreateHospitalViewModel : ViewModelBase
+    class AddNewMaintanceViewModel : ViewModelBase
     {
-        CreateHospitalView createHospital;
+        AddNewMaintanceView addMaintance;
 
-        private tblHospital hospital;
-        public tblHospital Hospital
-        {
-            get { return hospital; }
-            set { hospital = value; OnPropertyChanged("Hospital"); }
-        }
-
+        // properties
         private tblUser user;
         public tblUser User
         {
@@ -29,14 +23,29 @@ namespace MedicalInstitution.ViewModel
             set { user = value; OnPropertyChanged("User"); }
         }
 
-
-        public CreateHospitalViewModel(CreateHospitalView createHospitalOpen, tblUser userToPass)
+        private tblMaintance maintance;
+        public tblMaintance Maintance
         {
-            user = userToPass;
-            createHospital = createHospitalOpen;
-            hospital = new tblHospital();
+            get { return maintance; }
+            set { maintance = value; OnPropertyChanged("Maintance"); }
         }
 
+
+        private bool isUpdateMaintance;
+        public bool IsUpdateMaintance
+        {
+            get { return isUpdateMaintance; }
+            set { isUpdateMaintance = value; }
+        }
+
+        public AddNewMaintanceViewModel(AddNewMaintanceView addMaintanceOpen, tblUser userToPass)
+        {
+            user = userToPass;
+            addMaintance = addMaintanceOpen;
+            maintance = new tblMaintance();
+        }
+
+        // commands
         private ICommand save;
         public ICommand Save
         {
@@ -52,15 +61,7 @@ namespace MedicalInstitution.ViewModel
 
         private bool CanSaveExecute()
         {
-            if (String.IsNullOrEmpty(hospital.HospitalName) || String.IsNullOrEmpty(hospital.Adress)
-                || String.IsNullOrEmpty(hospital.Owns))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return true;
         }
 
         private void SaveExecute()
@@ -69,27 +70,32 @@ namespace MedicalInstitution.ViewModel
             {
                 using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
                 {
-                    tblHospital newHospital = new tblHospital();
+                    tblMaintance newMaintance = new tblMaintance();
 
-                    newHospital.HospitalName = hospital.HospitalName;
-                    newHospital.Adress = hospital.Adress;
-                    newHospital.StartDate = DateTime.Now.Date;
-                    newHospital.Owns = hospital.Owns;
-                    newHospital.Flors = hospital.Flors;
-                    newHospital.Levels = hospital.Levels;
-                    newHospital.Balcony = hospital.Balcony;
-                    newHospital.Yard = hospital.Yard;
-                    newHospital.AmbulancePoint = hospital.AmbulancePoint;
-                    newHospital.InvalidPoint = hospital.InvalidPoint;
-                    newHospital.HospitalID = hospital.HospitalID;
+                    newMaintance.GrowPermision = maintance.GrowPermision;
+                    newMaintance.InvalidDuty = maintance.InvalidDuty;
+
+                    if (newMaintance.InvalidDuty == true)
+                    {
+                        newMaintance.AmbulanceDuty = false;
+                    }
+                    else
+                    {
+                        newMaintance.AmbulanceDuty = true;
+                    }
+
+                    
 
                     tblUser viaUser = (from x in context.tblUsers where x.UserId == user.UserId select x).First();
-                    viaUser.LoggedIn = true;
+                    newMaintance.UserID = viaUser.UserId;
+                    newMaintance.MaintanceID = maintance.MaintanceID;
 
-                    context.tblHospitals.Add(newHospital);
+                    context.tblMaintances.Add(newMaintance);
                     context.SaveChanges();
+
+                    IsUpdateMaintance = true;
                 }
-                createHospital.Close();
+                addMaintance.Close();
             }
             catch (Exception)
             {
@@ -118,7 +124,7 @@ namespace MedicalInstitution.ViewModel
         {
             try
             {
-                createHospital.Close();
+                addMaintance.Close();
             }
             catch (Exception ex)
             {

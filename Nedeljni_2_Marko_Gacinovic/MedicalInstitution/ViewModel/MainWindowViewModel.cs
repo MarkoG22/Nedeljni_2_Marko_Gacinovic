@@ -84,14 +84,26 @@ namespace MedicalInstitution.ViewModel
             }
             else if (IsAdmin(username,UserPassword))
             {
-                ClinicAdministrator admin = new ClinicAdministrator();
-                if (FirstLogin(username,userPassword))
+                try
                 {
-                    CreateHospitalView hospital = new CreateHospitalView(user);
-                    hospital.ShowDialog();
+                    using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
+                    {
+                        user = (from x in context.tblUsers where x.Username == username && x.Pasword == userPassword select x).First();
+                        
+                        if (user.LoggedIn != true)
+                        {
+                            CreateHospitalView hospital = new CreateHospitalView(user);
+                            hospital.ShowDialog();
+                            user.LoggedIn = true;
+                        }
+                        ClinicAdministrator admin = new ClinicAdministrator(user);
+                        admin.ShowDialog();
+                    }
                 }
-                
-                admin.ShowDialog();
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                }
             }
             else
             {
@@ -182,7 +194,10 @@ namespace MedicalInstitution.ViewModel
                     {
                         return true;
                     }
-                    return false;
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
             catch (Exception ex)

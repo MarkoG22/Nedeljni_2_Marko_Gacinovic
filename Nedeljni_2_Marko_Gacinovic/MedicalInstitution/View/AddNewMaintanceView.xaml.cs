@@ -17,14 +17,14 @@ using System.Windows.Shapes;
 namespace MedicalInstitution.View
 {
     /// <summary>
-    /// Interaction logic for ClinicAdministrator.xaml
+    /// Interaction logic for AddNewMaintanceView.xaml
     /// </summary>
-    public partial class ClinicAdministrator : Window
+    public partial class AddNewMaintanceView : Window
     {
-        public ClinicAdministrator(tblUser user)
+        public AddNewMaintanceView(tblUser user)
         {
             InitializeComponent();
-            this.DataContext = new ClinicAdministratorViewModel(this, user);
+            this.DataContext = new AddNewMaintanceViewModel(this, user);
         }
     }
 }

@@ -106,9 +106,10 @@ namespace MedicalInstitution.ViewModel
         }
 
         // constructor
-        public ClinicAdministratorViewModel(ClinicAdministrator adminOpen)
+        public ClinicAdministratorViewModel(ClinicAdministrator adminOpen, tblUser userToPass)
         {            
             clinicAdministrator = adminOpen;
+            user = userToPass;
 
             UserList = GetAllUser();
             HospitalList = GetAllHospital();
@@ -273,6 +274,124 @@ namespace MedicalInstitution.ViewModel
                 {
                     HospitalList = GetAllHospital().ToList();
                 }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+            }
+        }
+
+
+        private ICommand addNewMaintance;
+        public ICommand AddNewMaintance
+        {
+            get
+            {
+                if (addNewMaintance == null)
+                {
+                    addNewMaintance = new RelayCommand(param => AddNewMaintanceExecute(), param => CanAddNewMaintanceExecute());
+                }
+                return addNewMaintance;
+            }
+        }
+
+        private bool CanAddNewMaintanceExecute()
+        {
+            return true;
+        }
+
+        private void AddNewMaintanceExecute()
+        {
+            try
+            {
+                AddNewMaintanceView addMaintance = new AddNewMaintanceView(user);
+                addMaintance.ShowDialog();
+                // updating the project list view
+                if ((addMaintance.DataContext as AddNewMaintanceViewModel).IsUpdateMaintance == true)
+                {
+                    MaintanceList = GetAllMaintance().ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+            }
+        }
+
+        private ICommand deleteMaintance;
+        public ICommand DeleteMaintance
+        {
+            get
+            {
+                if (deleteMaintance == null)
+                {
+                    deleteMaintance = new RelayCommand(param => DeleteMaintanceExecute(), param => CanDeleteMaintanceExecute());
+                }
+                return deleteMaintance;
+            }
+
+        }
+
+        private bool CanDeleteMaintanceExecute()
+        {
+            return true;
+        }
+
+        private void DeleteMaintanceExecute()
+        {
+            try
+            {
+                using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
+                {
+                    int id = user.UserId;
+
+                    // checking the action
+                    MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to delete the maintance?", "Delete Confirmation", MessageBoxButton.YesNo);
+
+                    if (messageBoxResult == MessageBoxResult.Yes)
+                    {
+                        tblUser userToDelete = (from x in context.tblUsers where x.UserId == id select x).First();
+
+                        context.tblUsers.Remove(userToDelete);
+                        context.SaveChanges();
+
+                        UserList = GetAllUser();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Sorry, the maintance can not be deleted.");
+            }
+        }
+
+        // command for editing the user
+        private ICommand editMaintance;
+        public ICommand EditMaintance
+        {
+            get
+            {
+                if (editMaintance == null)
+                {
+                    editMaintance = new RelayCommand(param => EditMaintanceExecute(), param => CanEditMaintanceExecute());
+                }
+                return editMaintance;
+            }
+        }
+
+        private bool CanEditMaintanceExecute()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// method for opening the view for the editing user
+        /// </summary>
+        private void EditMaintanceExecute()
+        {
+            try
+            {
+                // !!!
             }
             catch (Exception ex)
             {

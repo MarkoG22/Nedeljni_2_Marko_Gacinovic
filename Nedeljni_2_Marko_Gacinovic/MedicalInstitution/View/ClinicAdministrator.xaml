@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MedicalInstitution.View"
         mc:Ignorable="d"
-        Title="ClinicAdministrator" Height="450" Width="1000">
+        Title="ClinicAdministrator" Height="auto" Width="1000">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -99,6 +99,43 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
+        <Grid Grid.Column="1" Grid.Row="4" Height="auto" Width="auto">
+            <DataGrid Name="DataGridMaintances" ItemsSource="{Binding MaintanceList, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding Maintance, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
+                      AutoGenerateColumns="False"
+                      HorizontalGridLinesBrush="Black" BorderBrush="Black" Foreground="Black"
+                      FontWeight="Bold" Margin="20">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Maintance ID" Binding="{Binding MaintanceID}"/>
+                    <DataGridTextColumn Header="User ID" Binding="{Binding UserID}"/>
+                    <DataGridTextColumn Header="Grow Permision" Binding="{Binding GrowPermision}"/>
+                    <DataGridTextColumn Header="Invalid Duty" Binding="{Binding InvalidDuty}"/>                    
+                    <DataGridTextColumn Header="Ambulance Duty" Binding="{Binding AmbulanceDuty}"/>                    
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="btnDeleteMaintance" Content="X" 
+                                Command="{Binding DataContext.DeleteMaintance, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        Margin="4" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="btnEditMaintance" Content="Edit" 
+                                Command="{Binding DataContext.EditMaintance, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        Margin="4" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal">
+            <Button Width="120" Height="20" Name="btnAddMaintance" Content="Add New Maintance"
+                    Command="{Binding AddNewMaintance, UpdateSourceTrigger=PropertyChanged}" Margin="20,4,4,4" FontWeight="Bold"/>
+        </StackPanel>
         <Grid Grid.Column="1" Grid.Row="9" Height="auto" Width="auto">
             <DataGrid Name="DataGridDoctors" ItemsSource="{Binding UserList, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding User, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
