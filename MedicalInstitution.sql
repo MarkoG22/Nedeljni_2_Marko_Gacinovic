@@ -39,7 +39,8 @@ Birthdate date not null,
 Citizenship nvarchar (50) not null,
 Manager bit not null,
 Username nvarchar (50) unique not null,
-Pasword nvarchar (50) unique not null 
+Pasword nvarchar (50) unique not null, 
+LoggedIn bit
 )
 ​
 create table tblMaintance (
@@ -126,26 +127,26 @@ CREATE VIEW vwMaintance AS
 	SELECT	tblUser.*, 
 			tblMaintance.MaintanceID, tblMaintance.AmbulanceDuty,tblMaintance.GrowPermision,tblMaintance.InvalidDuty
 	FROM	tblUser, tblMaintance
-	WHERE	tblUser.UserID = tblMaintance.UserID
+	WHERE	tblUser.UserID = tblMaintance.UserID;
 ​
 GO
 CREATE VIEW vwDoctor AS
 	SELECT	tblUser.*, 
 			tblDoctor.DoctorID,tblDoctor.AccountNumber,tblDoctor.Department,tblDoctor.ManagerID,tblDoctor.Reception,tblDoctor.ShiftID,tblDoctor.UniqueNumber
 	FROM	tblUser, tblDoctor 
-	WHERE	tblUser.UserID = tblDoctor.UserID
+	WHERE	tblUser.UserID = tblDoctor.UserID;
 ​
 GO
 CREATE VIEW vwPatient AS
 	SELECT	tblUser.*,
 			tblPatient.CardNumber,tblPatient.PatientID,tblPatient.DateExpire,tblPatient.DoctorID
 	FROM	tblUser, tblPatient
-	WHERE	tblUser.UserID = tblPatient.UserID
+	WHERE	tblUser.UserID = tblPatient.UserID;
 ​
 GO
 CREATE VIEW vwManager AS
 	SELECT	tblUser.*,
 			tblManager.ManagerID,tblManager.HospitalLevel,tblManager.MaxDoctors,tblManager.MinRooms,tblManager.Erors
 	From tblUser,tblManager
-	WHERE	tblUser.UserID = tblManager.UserID
+	WHERE	tblUser.UserID = tblManager.UserID;
 ​

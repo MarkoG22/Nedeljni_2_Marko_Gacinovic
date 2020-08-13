@@ -5,8 +5,67 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MedicalInstitution.View"
         mc:Ignorable="d"
-        Title="EditUserView" Height="450" Width="800">
+        Title="EditUserView" Height="350" Width="400">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="6"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="6"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Column="3" Grid.Row="1" Name="lblCreateAdmin" Content="CREATE ADMIN " Padding="0" HorizontalAlignment="Center"/>
+        <Label Grid.Column="1" Grid.Row="3" Name="lblFullName" Content="Full Name: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="5" Name="lblIdCard" Content="ID Card: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="7" Name="lblGender" Content="Gender (M/Z/X/N): " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="9" Name="lblBirthdate" Content="Birthdate: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="11" Name="lblCitizenshipe" Content="Citizenship: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="13" Name="lblUsername" Content="Username: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="15" Name="lblPassword" Content="Password: " Padding="0" HorizontalAlignment="Right"/>
+        <TextBox Grid.Column="3" Grid.Row="3" Name="txtFullName" Height="20" Width="150" PreviewTextInput="LettersValidationTextBox"
+                 Text="{Binding User.FullName, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="3" Grid.Row="5" Name="txtIdCard" Height="20" Width="150"
+                 Text="{Binding User.IdCard, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="3" Grid.Row="7" Name="txtGender" Height="20" Width="150"
+                 Text="{Binding User.Gender, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
+        <DatePicker Grid.Column="3" Grid.Row="9" Name="DatePicker1" Height="20" Width="150" DisplayDate="1/1/20" DisplayDateEnd="11/8/20"
+                 SelectedDate="{Binding User.Birthdate, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="3" Grid.Row="11" Name="txtCitizenship" Height="20" Width="150" 
+                 Text="{Binding User.Citizenship, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
+        <TextBox Grid.Column="3" Grid.Row="13" Name="txtUsername" Height="20" Width="150"
+                 Text="{Binding User.Username, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
+        <TextBox Grid.Column="3" Grid.Row="15" Name="txtUserPassword" Height="20" Width="150" 
+                 Text="{Binding User.Pasword, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
+        <Button Grid.Column="3" Grid.Row="21" Name="btnSave" Content="Save" Height="20" Width="70" HorizontalAlignment="Left"
+                Command="{Binding Save, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Grid.Column="3" Grid.Row="21" Name="btnClose" Content="Close" Height="20" Width="70" HorizontalAlignment="Right"
+                Command="{Binding Close, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>

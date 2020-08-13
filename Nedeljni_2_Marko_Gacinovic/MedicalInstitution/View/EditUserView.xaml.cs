@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,6 +26,12 @@ namespace MedicalInstitution.View
         {
             InitializeComponent();
             this.DataContext = new EditUserViewModel(this, user);
+        }
+
+        private void LettersValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^a-zA-Z ]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }
