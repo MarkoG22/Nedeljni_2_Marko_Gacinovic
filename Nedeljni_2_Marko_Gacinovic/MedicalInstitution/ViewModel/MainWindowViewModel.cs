@@ -16,6 +16,7 @@ namespace MedicalInstitution.ViewModel
     {
         MainWindow main;
 
+        #region Properties
         // properties for username and password
         private string username;
         public string Username
@@ -46,6 +47,13 @@ namespace MedicalInstitution.ViewModel
             set { user = value; }
         }
 
+        private tblManager manager;
+        public tblManager Manager
+        {
+            get { return manager; }
+            set { manager = value; OnPropertyChanged("Manager"); }
+        }
+        #endregion
 
         // constructor
         public MainWindowViewModel(MainWindow mainOpen)
@@ -53,6 +61,7 @@ namespace MedicalInstitution.ViewModel
             main = mainOpen;
         }
 
+        #region Commands
         // command for the login button
         private ICommand logIn;
         public ICommand LogIn
@@ -96,7 +105,7 @@ namespace MedicalInstitution.ViewModel
                             hospital.ShowDialog();
                             user.LoggedIn = true;
                         }
-                        ClinicAdministrator admin = new ClinicAdministrator(user);
+                        ClinicAdministrator admin = new ClinicAdministrator(user, manager);
                         admin.ShowDialog();
                     }
                 }
@@ -144,7 +153,9 @@ namespace MedicalInstitution.ViewModel
         {
             return true;
         }
+        #endregion
 
+        #region Methods
         private bool IsMaster(string username, string password)
         {
             string[] lines = File.ReadAllLines(@"../../ClinicAccess.txt");
@@ -206,5 +217,6 @@ namespace MedicalInstitution.ViewModel
                 return false;
             }
         }
+        #endregion
     }
 }

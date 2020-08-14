@@ -13,8 +13,9 @@ namespace MedicalInstitution.ViewModel
 {
     class ClinicAdministratorViewModel : ViewModelBase
     {
-        ClinicAdministrator clinicAdministrator;        
+        ClinicAdministrator clinicAdministrator;
 
+        #region Properties
         // properties
         private tblUser user;
         public tblUser User
@@ -104,12 +105,14 @@ namespace MedicalInstitution.ViewModel
             get { return managerList; }
             set { managerList = value; OnPropertyChanged("ManagerList"); }
         }
+        #endregion
 
         // constructor
-        public ClinicAdministratorViewModel(ClinicAdministrator adminOpen, tblUser userToPass)
+        public ClinicAdministratorViewModel(ClinicAdministrator adminOpen, tblUser userToPass, tblManager managerToPass)
         {            
             clinicAdministrator = adminOpen;
             user = userToPass;
+            manager = managerToPass;
 
             UserList = GetAllUser();
             HospitalList = GetAllHospital();
@@ -119,6 +122,7 @@ namespace MedicalInstitution.ViewModel
             ManagerList = GetAllManager();
         }
 
+        #region User
         // commands
         private ICommand addNewUser;
         public ICommand AddNewUser
@@ -242,6 +246,9 @@ namespace MedicalInstitution.ViewModel
             }
         }
 
+        #endregion
+
+        #region Hospital
         // command for editing the user
         private ICommand editHospital;
         public ICommand EditHospital
@@ -280,8 +287,9 @@ namespace MedicalInstitution.ViewModel
                 System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
             }
         }
+        #endregion
 
-
+        #region Maintance
         private ICommand addNewMaintance;
         public ICommand AddNewMaintance
         {
@@ -403,7 +411,9 @@ namespace MedicalInstitution.ViewModel
                 System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
             }
         }
+        #endregion
 
+        #region Manager
         private ICommand addNewManager;
         public ICommand AddNewManager
         {
@@ -440,7 +450,94 @@ namespace MedicalInstitution.ViewModel
             }
         }
 
+        private ICommand deleteManager;
+        public ICommand DeleteManager
+        {
+            get
+            {
+                if (deleteManager == null)
+                {
+                    deleteManager = new RelayCommand(param => DeleteManagerExecute(), param => CanDeleteManagerExecute());
+                }
+                return deleteManager;
+            }
 
+        }
+
+        private bool CanDeleteManagerExecute()
+        {
+            return true;
+        }
+
+        private void DeleteManagerExecute()
+        {
+            try
+            {
+                using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
+                {
+                    int id = manager.ManagerID;
+
+                    // checking the action
+                    MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to delete the manager?", "Delete Confirmation", MessageBoxButton.YesNo);
+
+                    if (messageBoxResult == MessageBoxResult.Yes)
+                    {
+                        tblManager managerToDelete = (from x in context.tblManagers where x.ManagerID == id select x).First();
+
+                        context.tblManagers.Remove(managerToDelete);
+                        context.SaveChanges();
+
+                        ManagerList = GetAllManager();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Sorry, the manager can not be deleted.");
+            }
+        }
+
+        // command for editing the user
+        private ICommand editManager;
+        public ICommand EditManager
+        {
+            get
+            {
+                if (editManager == null)
+                {
+                    editManager = new RelayCommand(param => EditManagerExecute(), param => CanEditManagerExecute());
+                }
+                return editManager;
+            }
+        }
+
+        private bool CanEditManagerExecute()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// method for opening the view for the editing user
+        /// </summary>
+        private void EditManagerExecute()
+        {
+            try
+            {
+                EditManagerView editManager = new EditManagerView(manager);
+                editManager.ShowDialog();
+                if ((editManager.DataContext as EditManagerViewModel).IsUpdateManager == true)
+                {
+                    ManagerList = GetAllManager();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+            }
+        }
+        #endregion
+
+        #region Methods
         private List<tblUser> GetAllUser()
         {
             try
@@ -559,5 +656,6 @@ namespace MedicalInstitution.ViewModel
                 return null;
             }
         }
+        #endregion
     }
 }

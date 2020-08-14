@@ -72,6 +72,7 @@
     <Compile Include="ViewModel\CreateHospitalViewModel.cs" />
     <Compile Include="ViewModel\EditHospitalViewModel.cs" />
     <Compile Include="ViewModel\EditMaintanceViewModel.cs" />
+    <Compile Include="ViewModel\EditManagerViewModel.cs" />
     <Compile Include="ViewModel\EditUserViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\MasterViewModel.cs" />
@@ -96,6 +97,9 @@
     </Compile>
     <Compile Include="View\EditMaintanceView.xaml.cs">
       <DependentUpon>EditMaintanceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditManagerView.xaml.cs">
+      <DependentUpon>EditManagerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EditUserView.xaml.cs">
       <DependentUpon>EditUserView.xaml</DependentUpon>
@@ -140,6 +144,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\EditMaintanceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
