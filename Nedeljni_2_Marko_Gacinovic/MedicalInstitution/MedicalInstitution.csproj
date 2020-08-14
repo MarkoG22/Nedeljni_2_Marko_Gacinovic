@@ -66,6 +66,7 @@
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="ViewModel\AddNewMaintanceViewModel.cs" />
+    <Compile Include="ViewModel\AddNewManagerViewModel.cs" />
     <Compile Include="ViewModel\AddUserViewModel.cs" />
     <Compile Include="ViewModel\ClinicAdministratorViewModel.cs" />
     <Compile Include="ViewModel\CreateHospitalViewModel.cs" />
@@ -75,6 +76,9 @@
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\MasterViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\AddManagerView.xaml.cs">
+      <DependentUpon>AddManagerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\AddNewMaintanceView.xaml.cs">
       <DependentUpon>AddNewMaintanceView.xaml</DependentUpon>
     </Compile>
@@ -111,6 +115,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\AddManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AddNewMaintanceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -404,6 +404,42 @@ namespace MedicalInstitution.ViewModel
             }
         }
 
+        private ICommand addNewManager;
+        public ICommand AddNewManager
+        {
+            get
+            {
+                if (addNewManager == null)
+                {
+                    addNewManager = new RelayCommand(param => AddNewManagerExecute(), param => CanAddNewManagerExecute());
+                }
+                return addNewManager;
+            }
+        }
+
+        private bool CanAddNewManagerExecute()
+        {
+            return true;
+        }
+
+        private void AddNewManagerExecute()
+        {
+            try
+            {
+                AddManagerView addManager = new AddManagerView(user);
+                addManager.ShowDialog();
+                // updating the project list view
+                if ((addManager.DataContext as AddNewManagerViewModel).IsUpdateManager == true)
+                {
+                    ManagerList = GetAllManager().ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+            }
+        }
+
 
         private List<tblUser> GetAllUser()
         {
