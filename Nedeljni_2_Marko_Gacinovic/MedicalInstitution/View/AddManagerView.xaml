@@ -36,8 +36,8 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>        
         <Label Grid.Column="1" Grid.Row="3" Name="lblHospitalLevel" Content="Hospital levels: " Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="1" Grid.Row="5" Name="lblMaxDoctors" Content="Maximum doctors number: " Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="1" Grid.Row="7" Name="lblMinRooms" Content="Minimum rooms number: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="5" Name="lblMaxDoctors" Content="Maximum doctors monitoring: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="7" Name="lblMinRooms" Content="Minimum rooms monitoring: " Padding="0" HorizontalAlignment="Right"/>
         <Label Grid.Column="1" Grid.Row="9" Name="lblErors" Content="Errors: " Padding="0" HorizontalAlignment="Right"/>
 
         <TextBox Grid.Column="3" Grid.Row="3" Name="txtHospitalLevel" Height="20" Width="150" PreviewTextInput="NumbersTextBox"

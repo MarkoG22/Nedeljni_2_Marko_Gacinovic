@@ -64,10 +64,35 @@ namespace MedicalInstitution.ViewModel
 
                     tblManager managerToEdit = (from x in context.tblManagers where x.ManagerID == id select x).First();
 
-                    managerToEdit.HospitalLevel = manager.HospitalLevel;
-                    managerToEdit.MaxDoctors = manager.MaxDoctors;
-                    managerToEdit.MinRooms = manager.MinRooms;
-                    managerToEdit.Erors = manager.Erors;
+                    if (manager.Erors == null)
+                    {
+                        managerToEdit.Erors = 0;
+                    }
+                    else
+                    {
+                        managerToEdit.Erors = manager.Erors;
+                    }
+
+                    if (manager.HospitalLevel == null)
+                    {
+                        managerToEdit.HospitalLevel = 0;
+                    }
+                    else
+                    {
+                        managerToEdit.HospitalLevel = manager.HospitalLevel;
+                    }
+
+                    if (managerToEdit.Erors <= 5)
+                    {
+                        managerToEdit.MaxDoctors = manager.MaxDoctors;
+                        managerToEdit.MinRooms = manager.MinRooms;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Manager with 5 or more errors can not monitor any doctor or room.");
+                        managerToEdit.MaxDoctors = 0;
+                        managerToEdit.MinRooms = 0;
+                    }
 
                     managerToEdit.ManagerID = manager.ManagerID;
                     managerToEdit.UserID = manager.UserID;

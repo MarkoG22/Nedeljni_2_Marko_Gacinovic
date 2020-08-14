@@ -150,6 +150,7 @@
                     <DataGridTextColumn Header="Hospital levels" Binding="{Binding HospitalLevel}"/>
                     <DataGridTextColumn Header="Max Doctors" Binding="{Binding MaxDoctors}"/>
                     <DataGridTextColumn Header="Min Rooms" Binding="{Binding MinRooms}"/>
+                    <DataGridTextColumn Header="Errors" Binding="{Binding Erors}"/>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -176,8 +177,8 @@
                     Command="{Binding AddNewManager, UpdateSourceTrigger=PropertyChanged}" Margin="20,4,4,4" FontWeight="Bold"/>
         </StackPanel>
         <Grid Grid.Column="1" Grid.Row="9" Height="auto" Width="auto">
-            <DataGrid Name="DataGridDoctors" ItemsSource="{Binding UserList, UpdateSourceTrigger=PropertyChanged}"
-                      SelectedItem="{Binding User, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
+            <DataGrid Name="DataGridDoctors" ItemsSource="{Binding DoctorList, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding Doctor, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
                       AutoGenerateColumns="False"
                       HorizontalGridLinesBrush="Black" BorderBrush="Black" Foreground="Black"
                       FontWeight="Bold" Margin="20">

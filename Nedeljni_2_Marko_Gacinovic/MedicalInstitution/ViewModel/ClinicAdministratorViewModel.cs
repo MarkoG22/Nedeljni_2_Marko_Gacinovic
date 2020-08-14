@@ -537,6 +537,44 @@ namespace MedicalInstitution.ViewModel
         }
         #endregion
 
+        #region Doctor
+        private ICommand addNewDoctor;
+        public ICommand AddNewDoctor
+        {
+            get
+            {
+                if (addNewDoctor == null)
+                {
+                    addNewDoctor = new RelayCommand(param => AddNewDoctorExecute(), param => CanAddNewDoctorExecute());
+                }
+                return addNewDoctor;
+            }
+        }
+
+        private bool CanAddNewDoctorExecute()
+        {
+            return true;
+        }
+
+        private void AddNewDoctorExecute()
+        {
+            try
+            {
+                AddDoctorView addDoctor = new AddDoctorView(user);
+                addDoctor.ShowDialog();
+                // updating the project list view
+                if ((addDoctor.DataContext as AddDoctorViewModel).IsUpdateDoctor == true)
+                {
+                    DoctorList = GetAllDoctor().ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+            }
+        }
+        #endregion
+
         #region Methods
         private List<tblUser> GetAllUser()
         {

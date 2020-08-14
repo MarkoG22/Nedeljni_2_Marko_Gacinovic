@@ -46,7 +46,7 @@
                  Text="{Binding Hospital.InvalidPoint, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
         <Button Grid.Column="3" Grid.Row="15" Name="btnSave" Content="Save" Height="20" Width="70" HorizontalAlignment="Left"
                 Command="{Binding Save, UpdateSourceTrigger=PropertyChanged}"/>
-        <Button Grid.Column="3" Grid.Row="15" Name="btnCancel" Content="Cancel" Height="20" Width="70" HorizontalAlignment="Right"
-                Command="{Binding Cancel, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Grid.Column="3" Grid.Row="15" Name="btnClose" Content="Cancel" Height="20" Width="70" HorizontalAlignment="Right"
+                Command="{Binding Close, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>

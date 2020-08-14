@@ -66,11 +66,36 @@ namespace MedicalInstitution.ViewModel
                 {
                     tblManager newManager = new tblManager();
 
-                    newManager.HospitalLevel = manager.HospitalLevel;
-                    newManager.MaxDoctors = manager.MaxDoctors;
-                    newManager.MinRooms = manager.MinRooms;
-                    newManager.Erors = manager.Erors;
+                    if (manager.Erors == null)
+                    {
+                        newManager.Erors = 0;
+                    }
+                    else
+                    {
+                        newManager.Erors = manager.Erors;
+                    }
 
+                    if (manager.HospitalLevel == null)
+                    {
+                        newManager.HospitalLevel = 0;
+                    }
+                    else
+                    {
+                        newManager.HospitalLevel = manager.HospitalLevel;
+                    }
+
+                    if (newManager.Erors <=5)
+                    {
+                        newManager.MaxDoctors = manager.MaxDoctors;
+                        newManager.MinRooms = manager.MinRooms;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Manager with 5 or more errors can not monitor any doctor or room.");
+                        newManager.MaxDoctors = 0;
+                        newManager.MinRooms = 0;
+                    }                  
+                    
                     newManager.ManagerID = manager.ManagerID;
 
                     tblUser viaUser = (from x in context.tblUsers where x.UserId == user.UserId select x).First();
