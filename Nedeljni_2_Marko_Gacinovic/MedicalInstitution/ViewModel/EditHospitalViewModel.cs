@@ -2,10 +2,7 @@
 using MedicalInstitution.Models;
 using MedicalInstitution.View;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -15,6 +12,7 @@ namespace MedicalInstitution.ViewModel
     {
         EditHospitalView editHospitalView;
 
+        // properties
         private tblHospital hospital;
         public tblHospital Hospital
         {
@@ -29,6 +27,7 @@ namespace MedicalInstitution.ViewModel
             set { isUpdateHospital = value; }
         }
 
+        // constructor
         public EditHospitalViewModel(EditHospitalView editHospitalOpen, tblHospital hospitalToPass)
         {
             editHospitalView = editHospitalOpen;
@@ -59,6 +58,9 @@ namespace MedicalInstitution.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// method for editing the hospital
+        /// </summary>
         private void SaveExecute()
         {
             try
@@ -90,13 +92,16 @@ namespace MedicalInstitution.ViewModel
                     
                     hospital.HospitalID = hospitalToEdit.HospitalID;
 
+                    // saving data
                     context.SaveChanges();
 
+                    // logging the action
                     FileActions.FileActions.Instance.Editing(FileActions.FileActions.path, FileActions.FileActions.actions, "hospital", "admin");
 
                     isUpdateHospital = true;
                 }
                 editHospitalView.Close();
+                MessageBox.Show("The hospital edited succesfully.");
             }
             catch (Exception)
             {

@@ -4,9 +4,7 @@ using MedicalInstitution.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -16,7 +14,7 @@ namespace MedicalInstitution.ViewModel
     {
         AddDoctorView addDoctor;
 
-        // properties
+        #region Properties
         private tblUser user;
         public tblUser User
         {
@@ -45,7 +43,6 @@ namespace MedicalInstitution.ViewModel
             set { manager = value; }
         }
 
-
         private List<tblShift> shiftList;
         public List<tblShift> ShiftList
         {
@@ -66,7 +63,9 @@ namespace MedicalInstitution.ViewModel
             get { return isUpdateDoctor; }
             set { isUpdateDoctor = value; }
         }
+        #endregion
 
+        // constructor
         public AddDoctorViewModel(AddDoctorView addDoctorOpen,vwManager viewManager)
         {
             addDoctor = addDoctorOpen;
@@ -105,6 +104,9 @@ namespace MedicalInstitution.ViewModel
             }
         }
 
+        /// <summary>
+        /// method for adding the doctor
+        /// </summary>
         private void SaveExecute()
         {
             try
@@ -116,6 +118,7 @@ namespace MedicalInstitution.ViewModel
                     tblDoctor newDoctor = new tblDoctor();
                     tblUser newUser = new tblUser();
 
+                    // inputs and validations
                     newUser.FullName = user.FullName;
                     newUser.IdCard = user.IdCard;
 
@@ -165,12 +168,15 @@ namespace MedicalInstitution.ViewModel
                     //    MessageBox.Show("Sorry, the manager can not monitor this doctor because of maximum doctors monitoring number.");                        
                     //}
 
+                    // adding the doctor to the database
                     context.tblUsers.Add(newUser);
                     context.tblDoctors.Add(newDoctor);
                     context.SaveChanges();
                     
+                    // logging the action
                     FileActions.FileActions.Instance.Editing(FileActions.FileActions.path, FileActions.FileActions.actions, "doctor", newUser.FullName);
 
+                    // variables for updating the lists
                     IsUpdateUser = true;
                     IsUpdateDoctor = true;
                 }
@@ -218,6 +224,10 @@ namespace MedicalInstitution.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// method for getting all shifts to the list
+        /// </summary>
+        /// <returns></returns>
         private List<tblShift> GetAllShift()
         {
             try
@@ -236,6 +246,12 @@ namespace MedicalInstitution.ViewModel
             }
         }
 
+
+        /// <summary>
+        /// method for the password validation
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
         private bool PasswordValidation(string password)
         {
             Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$");

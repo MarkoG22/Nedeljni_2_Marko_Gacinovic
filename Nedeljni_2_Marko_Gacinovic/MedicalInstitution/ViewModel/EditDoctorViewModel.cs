@@ -4,9 +4,7 @@ using MedicalInstitution.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -16,6 +14,7 @@ namespace MedicalInstitution.ViewModel
     {
         EditDoctorView editDoctor;
 
+        // properties
         private tblUser user;
         public tblUser User
         {
@@ -51,6 +50,7 @@ namespace MedicalInstitution.ViewModel
             set { shiftList = value; OnPropertyChanged("ShiftList"); }
         }
 
+        // constructor
         public EditDoctorViewModel(EditDoctorView editDoctorOpen, tblDoctor doctorToPass, tblUser userToPass)
         {
             user = userToPass;
@@ -78,6 +78,9 @@ namespace MedicalInstitution.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// method for editing the doctor
+        /// </summary>
         private void SaveExecute()
         {
             try
@@ -143,13 +146,16 @@ namespace MedicalInstitution.ViewModel
                         MessageBox.Show("Sorry, the manager can not monitor this doctor because of maximum doctors monitoring number.");
                     }
 
+                    // saving the data
                     context.SaveChanges();
 
+                    // logging the action
                     FileActions.FileActions.Instance.Editing(FileActions.FileActions.path, FileActions.FileActions.actions, "doctor", newUser.FullName);
 
                     isUpdateDoctor = true;
                 }
                 editDoctor.Close();
+                MessageBox.Show("The doctor edited succesfully.");
             }
             catch (Exception)
             {
@@ -191,6 +197,10 @@ namespace MedicalInstitution.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// method for getting all shifts to the list
+        /// </summary>
+        /// <returns></returns>
         private List<tblShift> GetAllShift()
         {
             try
@@ -209,6 +219,11 @@ namespace MedicalInstitution.ViewModel
             }
         }
 
+        /// <summary>
+        /// method for the password validation
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
         private bool PasswordValidation(string password)
         {
             Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$");

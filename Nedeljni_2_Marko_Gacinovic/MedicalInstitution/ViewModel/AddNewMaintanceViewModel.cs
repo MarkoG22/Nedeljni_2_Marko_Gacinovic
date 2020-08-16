@@ -2,11 +2,8 @@
 using MedicalInstitution.Models;
 using MedicalInstitution.View;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -45,6 +42,8 @@ namespace MedicalInstitution.ViewModel
             set { isUpdateMaintance = value; }
         }
 
+
+        //constructor
         public AddNewMaintanceViewModel(AddNewMaintanceView addMaintanceOpen)
         {
             addMaintance = addMaintanceOpen;
@@ -81,6 +80,9 @@ namespace MedicalInstitution.ViewModel
             }
         }
 
+        /// <summary>
+        /// method for adding new maintance
+        /// </summary>
         private void SaveExecute()
         {
             try
@@ -90,6 +92,7 @@ namespace MedicalInstitution.ViewModel
                     tblMaintance newMaintance = new tblMaintance();
                     tblUser newUser = new tblUser();
 
+                    // inputs and validations...
                     newUser.FullName = user.FullName;
                     newUser.IdCard = user.IdCard;
 
@@ -138,15 +141,18 @@ namespace MedicalInstitution.ViewModel
                     newMaintance.UserID = user.UserId;
                     newMaintance.MaintanceID = maintance.MaintanceID;
 
+                    // adding the maintance to the database
                     context.tblMaintances.Add(newMaintance);
                     context.tblUsers.Add(newUser);
                     context.SaveChanges();
 
+                    // logging the action
                     FileActions.FileActions.Instance.Adding(FileActions.FileActions.path, FileActions.FileActions.actions, "maintance", newUser.FullName);
 
                     IsUpdateMaintance = true;
                     IsUpdateUser = true;
                 }
+                MessageBox.Show("The maintance created succesfully.");
                 addMaintance.Close();
             }
             catch (Exception)
@@ -189,6 +195,11 @@ namespace MedicalInstitution.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// method for the password validation
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
         private bool PasswordValidation(string password)
         {
             Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$");

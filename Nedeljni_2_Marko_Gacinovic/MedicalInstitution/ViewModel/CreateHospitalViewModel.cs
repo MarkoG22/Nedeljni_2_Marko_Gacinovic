@@ -2,10 +2,7 @@
 using MedicalInstitution.Models;
 using MedicalInstitution.View;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -15,6 +12,7 @@ namespace MedicalInstitution.ViewModel
     {
         CreateHospitalView createHospital;
 
+        // properties
         private tblHospital hospital;
         public tblHospital Hospital
         {
@@ -29,7 +27,7 @@ namespace MedicalInstitution.ViewModel
             set { user = value; OnPropertyChanged("User"); }
         }
 
-
+        // constructor
         public CreateHospitalViewModel(CreateHospitalView createHospitalOpen, tblUser userToPass)
         {
             user = userToPass;
@@ -37,6 +35,7 @@ namespace MedicalInstitution.ViewModel
             hospital = new tblHospital();
         }
 
+        // commands
         private ICommand save;
         public ICommand Save
         {
@@ -63,6 +62,9 @@ namespace MedicalInstitution.ViewModel
             }
         }
 
+        /// <summary>
+        /// method for adding new hospital
+        /// </summary>
         private void SaveExecute()
         {
             try
@@ -84,14 +86,19 @@ namespace MedicalInstitution.ViewModel
                     newHospital.HospitalID = hospital.HospitalID;
 
                     tblUser viaUser = (from x in context.tblUsers where x.UserId == user.UserId select x).First();
+
+                    // variable that hospital is created once
                     viaUser.LoggedIn = true;
 
+                    // saving data
                     context.tblHospitals.Add(newHospital);
                     context.SaveChanges();
 
+                    // logging the action
                     FileActions.FileActions.Instance.Adding(FileActions.FileActions.path, FileActions.FileActions.actions, "hospital", viaUser.FullName);
                 }
                 createHospital.Close();
+                MessageBox.Show("The hospital created succesfully.");
             }
             catch (Exception)
             {

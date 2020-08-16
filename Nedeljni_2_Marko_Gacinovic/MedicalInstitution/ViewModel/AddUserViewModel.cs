@@ -2,11 +2,8 @@
 using MedicalInstitution.Models;
 using MedicalInstitution.View;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -14,7 +11,7 @@ namespace MedicalInstitution.ViewModel
 {
     class AddUserViewModel : ViewModelBase
     {
-        AddUserView addUser;
+        AddUserView addUser; // patient
 
         // properties
         private tblUser user;
@@ -38,7 +35,6 @@ namespace MedicalInstitution.ViewModel
             set { patient = value; OnPropertyChanged("Patient"); }
         }
 
-
         // constructor
         public AddUserViewModel(AddUserView addUserOpen)
         {
@@ -61,6 +57,9 @@ namespace MedicalInstitution.ViewModel
             }
         }
 
+        /// <summary>
+        /// method for adding new patient
+        /// </summary>
         private void SaveExecute()
         {
             try
@@ -70,6 +69,7 @@ namespace MedicalInstitution.ViewModel
                     tblUser newUser = new tblUser();
                     tblPatient newPatient = new tblPatient();
 
+                    // inputs and validations
                     newUser.FullName = user.FullName;
                     newUser.IdCard = user.IdCard;
 
@@ -107,14 +107,17 @@ namespace MedicalInstitution.ViewModel
                     newPatient.PatientID = patient.PatientID;
                     newPatient.UserID = newUser.UserId;
 
+                    // saving data
                     context.tblPatients.Add(newPatient);
                     context.tblUsers.Add(newUser);
                     context.SaveChanges();
 
+                    // logging the action
                     FileActions.FileActions.Instance.Adding(FileActions.FileActions.path, FileActions.FileActions.actions, "patient", newUser.FullName);
 
                     IsUpdateUser = true;
                 }
+                MessageBox.Show("The patient created succesfully");
                 addUser.Close();
             }
             catch (Exception)
@@ -176,6 +179,11 @@ namespace MedicalInstitution.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// method for the password validation
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
         private bool PasswordValidation(string password)
         {
             Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$");

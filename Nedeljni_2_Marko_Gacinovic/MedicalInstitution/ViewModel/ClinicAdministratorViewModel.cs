@@ -4,8 +4,6 @@ using MedicalInstitution.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -152,6 +150,9 @@ namespace MedicalInstitution.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// method for opening the window for adding new patient
+        /// </summary>
         private void AddNewUserExecute()
         {
             try
@@ -170,7 +171,7 @@ namespace MedicalInstitution.ViewModel
                 System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
             }
         }
-
+        
         private ICommand deleteUser;
         public ICommand DeleteUser
         {
@@ -190,6 +191,9 @@ namespace MedicalInstitution.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// method for deleting the patient
+        /// </summary>
         private void DeleteUserExecute()
         {
             try
@@ -204,6 +208,7 @@ namespace MedicalInstitution.ViewModel
                         tblUser userToDelete = (from y in context.tblUsers where y.UserId == patient.UserID select y).First();
                         tblPatient patientToDelete = (from x in context.tblPatients where x.PatientID == patient.PatientID select x).First();
 
+                        // deleting the patient
                         context.tblPatients.Remove(patientToDelete);
                         context.tblUsers.Remove(userToDelete);
                         context.SaveChanges();
@@ -211,9 +216,12 @@ namespace MedicalInstitution.ViewModel
                         PatientList = GetAllPatient();
                         UserList = GetAllUser();
 
+                        MessageBox.Show("The patient deleted succesfuly.");
+
                         FileActions.FileActions.Instance.Deleting(FileActions.FileActions.path, FileActions.FileActions.actions, "user", userToDelete.FullName);
                     }
                 }
+                
             }
             catch (Exception)
             {
@@ -241,7 +249,7 @@ namespace MedicalInstitution.ViewModel
         }
 
         /// <summary>
-        /// method for opening the view for the editing user
+        /// method for opening the view for the editing the patient
         /// </summary>
         private void EditUserExecute()
         {
@@ -264,7 +272,7 @@ namespace MedicalInstitution.ViewModel
         #endregion
 
         #region Hospital
-        // command for editing the user
+        // command for editing the hospital
         private ICommand editHospital;
         public ICommand EditHospital
         {
@@ -284,7 +292,7 @@ namespace MedicalInstitution.ViewModel
         }
 
         /// <summary>
-        /// method for opening the view for the editing user
+        /// method for opening the view for the editing hospital
         /// </summary>
         private void EditHospitalExecute()
         {
@@ -305,6 +313,7 @@ namespace MedicalInstitution.ViewModel
         #endregion
 
         #region Maintance
+        // commands
         private ICommand addNewMaintance;
         public ICommand AddNewMaintance
         {
@@ -323,13 +332,16 @@ namespace MedicalInstitution.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// method for opening the window for adding new maintance
+        /// </summary>
         private void AddNewMaintanceExecute()
         {
             try
             {
                 AddNewMaintanceView addMaintance = new AddNewMaintanceView();
                 addMaintance.ShowDialog();
-                // updating the project list view
+                // updating the lists view
                 if ((addMaintance.DataContext as AddNewMaintanceViewModel).IsUpdateMaintance == true)
                 {
                     MaintanceList = GetAllMaintance();
@@ -361,6 +373,9 @@ namespace MedicalInstitution.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// method for deleting the maintance
+        /// </summary>
         private void DeleteMaintanceExecute()
         {
             try
@@ -377,7 +392,7 @@ namespace MedicalInstitution.ViewModel
                         tblMaintance maintanceToDelete = (from x in context.tblMaintances where x.MaintanceID == id select x).First();
                         tblUser userToDelete = (from y in context.tblUsers where y.UserId == maintance.UserID select y).First();
 
-                        
+                        // deleting the maintance from the database
                         context.tblMaintances.Remove(maintanceToDelete);
                         context.tblUsers.Remove(userToDelete);
                         context.SaveChanges();
@@ -385,9 +400,13 @@ namespace MedicalInstitution.ViewModel
                         MaintanceList = GetAllMaintance();
                         userList = GetAllUser();
 
+                        MessageBox.Show("The maintance deleted succesfully.");
+
+                        // logging the action
                         FileActions.FileActions.Instance.Deleting(FileActions.FileActions.path, FileActions.FileActions.actions, "maintance", userToDelete.FullName);
                     }
                 }
+                
             }
             catch (Exception)
             {
@@ -415,7 +434,7 @@ namespace MedicalInstitution.ViewModel
         }
 
         /// <summary>
-        /// method for opening the view for the editing user
+        /// method for opening the view for the editing maintance
         /// </summary>
         private void EditMaintanceExecute()
         {
@@ -437,6 +456,7 @@ namespace MedicalInstitution.ViewModel
         #endregion
 
         #region Manager
+        // commands
         private ICommand addNewManager;
         public ICommand AddNewManager
         {
@@ -455,13 +475,16 @@ namespace MedicalInstitution.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// method for opening the window for adding new manager
+        /// </summary>
         private void AddNewManagerExecute()
         {
             try
             {
                 AddManagerView addManager = new AddManagerView();
                 addManager.ShowDialog();
-                // updating the project list view
+                // updating the lists view
                 if ((addManager.DataContext as AddNewManagerViewModel).IsUpdateManager == true)
                 {
                     ManagerList = GetAllManager().ToList();
@@ -493,6 +516,9 @@ namespace MedicalInstitution.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// method for deleting the manager
+        /// </summary>
         private void DeleteManagerExecute()
         {
             try
@@ -507,6 +533,7 @@ namespace MedicalInstitution.ViewModel
                         tblUser userToDelete = (from y in context.tblUsers where y.UserId == manager.UserID select y).First();
                         tblManager managerToDelete = (from x in context.tblManagers where x.ManagerID == manager.ManagerID select x).First();
 
+                        // deleting the manager
                         context.tblManagers.Remove(managerToDelete);
                         context.tblUsers.Remove(userToDelete);
                         context.SaveChanges();
@@ -514,9 +541,12 @@ namespace MedicalInstitution.ViewModel
                         ManagerList = GetAllManager();
                         UserList = GetAllUser();
 
+                        MessageBox.Show("The manager deleted succesfully.");
+
+                        // logging the action
                         FileActions.FileActions.Instance.Deleting(FileActions.FileActions.path, FileActions.FileActions.actions, "manager", userToDelete.FullName);
                     }
-                }
+                }                
             }
             catch (Exception)
             {
@@ -524,7 +554,7 @@ namespace MedicalInstitution.ViewModel
             }
         }
 
-        // command for editing the user
+        // command for editing the manager
         private ICommand editManager;
         public ICommand EditManager
         {
@@ -544,7 +574,7 @@ namespace MedicalInstitution.ViewModel
         }
 
         /// <summary>
-        /// method for opening the view for the editing user
+        /// method for opening the view for the editing manager
         /// </summary>
         private void EditManagerExecute()
         {
@@ -584,15 +614,19 @@ namespace MedicalInstitution.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// method for opening the window for adding new doctor
+        /// </summary>
         private void AddNewDoctorExecute()
         {
             try
             {
                 AddDoctorView addDoctor = new AddDoctorView(vwManager);
                 addDoctor.ShowDialog();
-                // updating the project list view
+                // updating the lists view
                 if ((addDoctor.DataContext as AddDoctorViewModel).IsUpdateDoctor == true)
                 {
+                    UserList = GetAllUser();
                     DoctorList = GetAllDoctor().ToList();
                 }
             }
@@ -621,6 +655,9 @@ namespace MedicalInstitution.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// method for deleting the doctor
+        /// </summary>
         private void DeleteDoctorExecute()
         {
             try
@@ -634,7 +671,8 @@ namespace MedicalInstitution.ViewModel
                     {
                         tblUser userToDelete = (from y in context.tblUsers where y.UserId == doctor.UserID select y).First();
                         tblDoctor doctorToDelete = (from x in context.tblDoctors where x.DoctorID == doctor.DoctorID select x).First();
-                                                
+                        
+                        // deleting the doctor
                         context.tblDoctors.Remove(doctorToDelete);
                         context.tblUsers.Remove(userToDelete);
                         context.SaveChanges();
@@ -642,9 +680,12 @@ namespace MedicalInstitution.ViewModel
                         DoctorList = GetAllDoctor();
                         UserList = GetAllUser();
 
+                        MessageBox.Show("The doctor deleted succesfully.");
+
+                        // logging the action
                         FileActions.FileActions.Instance.Deleting(FileActions.FileActions.path, FileActions.FileActions.actions, "doctor", userToDelete.FullName);
                     }
-                }
+                }                
             }
             catch (Exception)
             {
@@ -672,7 +713,7 @@ namespace MedicalInstitution.ViewModel
         }
 
         /// <summary>
-        /// method for opening the view for the editing user
+        /// method for opening the view for the editing doctor
         /// </summary>
         private void EditDoctorExecute()
         {
@@ -694,6 +735,7 @@ namespace MedicalInstitution.ViewModel
         #endregion
 
         #region Methods
+        // methods for getting the data from the database to the lists
         private List<tblUser> GetAllUser()
         {
             try

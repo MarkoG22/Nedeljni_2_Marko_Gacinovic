@@ -4,8 +4,6 @@ using MedicalInstitution.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace MedicalInstitution.ViewModel
@@ -37,6 +35,7 @@ namespace MedicalInstitution.ViewModel
 
         public DoctorViewModel(DoctorView doctorOpen, tblDoctor doctorToPass)
         {
+            doctorView = doctorOpen;
             doctor = doctorToPass;
             PatientList = GetAllPatient();
         }
@@ -60,6 +59,9 @@ namespace MedicalInstitution.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// method for opening the window for checking patients
+        /// </summary>
         private void AddNewCheckExecute()
         {
             try
@@ -67,13 +69,16 @@ namespace MedicalInstitution.ViewModel
                 CheckPatient checkPatient = new CheckPatient();
                 checkPatient.ShowDialog();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
             }
         }
 
+        /// <summary>
+        /// method for getting all patients to the list
+        /// </summary>
+        /// <returns></returns>
         private List<tblPatient> GetAllPatient()
         {
             try

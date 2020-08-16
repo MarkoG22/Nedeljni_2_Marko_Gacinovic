@@ -2,11 +2,8 @@
 using MedicalInstitution.Models;
 using MedicalInstitution.View;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -14,7 +11,7 @@ namespace MedicalInstitution.ViewModel
 {
     class EditUserViewModel : ViewModelBase
     {
-        EditUserView editUser;
+        EditUserView editUser; // patient
 
         // properties
         private tblUser user;
@@ -38,6 +35,7 @@ namespace MedicalInstitution.ViewModel
             set { patient = value; OnPropertyChanged("Patient"); }
         }
 
+        // constructor
         public EditUserViewModel(EditUserView editUserOpen, tblUser userToPass, tblPatient patientToPass)
         {
             editUser = editUserOpen;
@@ -59,6 +57,9 @@ namespace MedicalInstitution.ViewModel
             }
         }
 
+        /// <summary>
+        /// method for editing the patient
+        /// </summary>
         private void SaveExecute()
         {
             try
@@ -115,6 +116,7 @@ namespace MedicalInstitution.ViewModel
                     IsUpdateUser = true;
                 }
                 editUser.Close();
+                MessageBox.Show("The patient edited succesfully.");
             }
             catch (Exception)
             {
@@ -175,6 +177,11 @@ namespace MedicalInstitution.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// method for the password validation
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
         private bool PasswordValidation(string password)
         {
             Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$");

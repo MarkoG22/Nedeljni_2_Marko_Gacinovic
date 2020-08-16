@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -40,6 +38,7 @@ namespace MedicalInstitution.ViewModel
             }
         }
 
+        
         private tblUser user;
         public tblUser User
         {
@@ -188,6 +187,7 @@ namespace MedicalInstitution.ViewModel
         #endregion
 
         #region Methods
+        // methods for checking username and password for opening the proper window
         private bool IsMaster(string username, string password)
         {
             string[] lines = File.ReadAllLines(@"../../ClinicAccess.txt");
@@ -226,6 +226,12 @@ namespace MedicalInstitution.ViewModel
             }
         }
 
+        /// <summary>
+        /// method for checking if the admin is already was logged
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         private bool FirstLogin(string username, string password)
         {
             try

@@ -2,11 +2,8 @@
 using MedicalInstitution.Models;
 using MedicalInstitution.View;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -38,6 +35,7 @@ namespace MedicalInstitution.ViewModel
             set { isUpdateManager = value; }
         }
 
+        // constructor
         public AddNewManagerViewModel(AddManagerView addManagerOpen)
         {
             addManager = addManagerOpen;
@@ -59,6 +57,9 @@ namespace MedicalInstitution.ViewModel
             }
         }
 
+        /// <summary>
+        /// method for adding new manager
+        /// </summary>
         private void SaveExecute()
         {
             try
@@ -68,6 +69,7 @@ namespace MedicalInstitution.ViewModel
                     tblManager newManager = new tblManager();
                     tblUser newUser = new tblUser();
 
+                    // inputs and validations
                     newUser.FullName = user.FullName;
                     newUser.IdCard = user.IdCard;
 
@@ -134,14 +136,17 @@ namespace MedicalInstitution.ViewModel
                     
                     newManager.UserID = user.UserId;
 
+                    // saving the data to the database
                     context.tblUsers.Add(newUser);
                     context.tblManagers.Add(newManager);
                     context.SaveChanges();
-
+                    
+                    // logging the action
                     FileActions.FileActions.Instance.Adding(FileActions.FileActions.path, FileActions.FileActions.actions, "manager", user.FullName);
 
                     IsUpdateManager = true;
                 }
+                MessageBox.Show("The manager created succesfully.");
                 addManager.Close();
             }
             catch (Exception)
@@ -199,6 +204,11 @@ namespace MedicalInstitution.ViewModel
             return true;
         }
 
+        /// <summary>
+        /// method for the password validation
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
         private bool PasswordValidation(string password)
         {
             Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$");
