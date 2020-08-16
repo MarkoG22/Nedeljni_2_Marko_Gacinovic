@@ -93,6 +93,8 @@ namespace MedicalInstitution.ViewModel
                     context.tblMaintances.Add(newMaintance);
                     context.SaveChanges();
 
+                    FileActions.FileActions.Instance.Adding(FileActions.FileActions.path, FileActions.FileActions.actions, "maintance", viaUser.FullName);
+
                     IsUpdateMaintance = true;
                 }
                 addMaintance.Close();

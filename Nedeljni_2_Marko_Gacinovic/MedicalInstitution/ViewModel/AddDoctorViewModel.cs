@@ -94,10 +94,26 @@ namespace MedicalInstitution.ViewModel
 
                     newDoctor.DoctorID = doctor.DoctorID;
                     newDoctor.UserID = user.UserId;
-                    // ManagerID !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                    int userID = newDoctor.UserID;
+
+                    tblUser viaUser = (from y in context.tblUsers where y.UserId == userID select y).First();
+
+                    tblManager manager = (from x in context.tblManagers where x.UserID == viaUser.UserId select x).First();
+
+                    if (manager.MaxDoctors > 0)
+                    {
+                        newDoctor.ManagerID = manager.ManagerID;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Sorry, the manager can not monitor this doctor because of maximum doctors monitoring number.");
+                    }
 
                     context.tblDoctors.Add(newDoctor);
-                    context.SaveChanges();
+                    context.SaveChanges();                   
+
+                    FileActions.FileActions.Instance.Editing(FileActions.FileActions.path, FileActions.FileActions.actions, "manager", viaUser.FullName);
 
                     IsUpdateDoctor = true;
                 }

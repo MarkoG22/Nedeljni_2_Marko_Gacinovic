@@ -87,6 +87,8 @@ namespace MedicalInstitution.ViewModel
 
                     context.tblUsers.Add(newUser);
                     context.SaveChanges();
+
+                    FileActions.FileActions.Instance.Adding(FileActions.FileActions.path, FileActions.FileActions.actions, "user", newUser.FullName);
                 }
                 masterView.Close();
             }

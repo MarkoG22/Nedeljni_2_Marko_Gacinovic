@@ -96,6 +96,8 @@ namespace MedicalInstitution.ViewModel
                                         
                     context.SaveChanges();
 
+                    FileActions.FileActions.Instance.Editing(FileActions.FileActions.path, FileActions.FileActions.actions, "user", newUser.FullName);
+
                     IsUpdateUser = true;
                 }
                 editUser.Close();

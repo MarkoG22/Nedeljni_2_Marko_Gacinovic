@@ -99,6 +99,12 @@ namespace MedicalInstitution.ViewModel
 
                     context.SaveChanges();
 
+                    int userID = manager.UserID;
+
+                    tblUser user = (from y in context.tblUsers where y.UserId == userID select y).First();
+
+                    FileActions.FileActions.Instance.Editing(FileActions.FileActions.path, FileActions.FileActions.actions, "manager", user.FullName);
+
                     IsUpdateManager = true;
                 }
                 editManager.Close();

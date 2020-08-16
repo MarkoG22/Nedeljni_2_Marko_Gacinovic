@@ -88,6 +88,8 @@ namespace MedicalInstitution.ViewModel
 
                     context.tblHospitals.Add(newHospital);
                     context.SaveChanges();
+
+                    FileActions.FileActions.Instance.Adding(FileActions.FileActions.path, FileActions.FileActions.actions, "hospital", viaUser.FullName);
                 }
                 createHospital.Close();
             }

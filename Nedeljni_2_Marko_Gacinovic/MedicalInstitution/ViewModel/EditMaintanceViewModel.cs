@@ -90,6 +90,8 @@ namespace MedicalInstitution.ViewModel
                     
                     context.SaveChanges();
 
+                    FileActions.FileActions.Instance.Editing(FileActions.FileActions.path, FileActions.FileActions.actions, "maintance", viaUser.FullName);
+
                     IsUpdateMaintance = true;
                 }
                 editMaintance.Close();

@@ -65,12 +65,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="FileActions\FileActions.cs" />
     <Compile Include="ViewModel\AddDoctorViewModel.cs" />
     <Compile Include="ViewModel\AddNewMaintanceViewModel.cs" />
     <Compile Include="ViewModel\AddNewManagerViewModel.cs" />
     <Compile Include="ViewModel\AddUserViewModel.cs" />
     <Compile Include="ViewModel\ClinicAdministratorViewModel.cs" />
     <Compile Include="ViewModel\CreateHospitalViewModel.cs" />
+    <Compile Include="ViewModel\EditDoctorViewModel.cs" />
     <Compile Include="ViewModel\EditHospitalViewModel.cs" />
     <Compile Include="ViewModel\EditMaintanceViewModel.cs" />
     <Compile Include="ViewModel\EditManagerViewModel.cs" />
@@ -95,6 +97,9 @@
     </Compile>
     <Compile Include="View\CreateHospitalView.xaml.cs">
       <DependentUpon>CreateHospitalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditDoctorView.xaml.cs">
+      <DependentUpon>EditDoctorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EditHospitalView.xaml.cs">
       <DependentUpon>EditHospitalView.xaml</DependentUpon>
@@ -144,6 +149,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CreateHospitalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditDoctorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

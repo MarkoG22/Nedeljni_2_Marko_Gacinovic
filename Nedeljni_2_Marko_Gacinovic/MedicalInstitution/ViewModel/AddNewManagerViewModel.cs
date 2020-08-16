@@ -104,6 +104,8 @@ namespace MedicalInstitution.ViewModel
                     context.tblManagers.Add(newManager);
                     context.SaveChanges();
 
+                    FileActions.FileActions.Instance.Adding(FileActions.FileActions.path, FileActions.FileActions.actions, "manager", viaUser.FullName);
+
                     IsUpdateManager = true;
                 }
                 addManager.Close();

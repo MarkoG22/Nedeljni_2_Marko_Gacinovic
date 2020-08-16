@@ -198,6 +198,8 @@ namespace MedicalInstitution.ViewModel
                         context.SaveChanges();
 
                         UserList = GetAllUser();
+
+                        FileActions.FileActions.Instance.Deleting(FileActions.FileActions.path, FileActions.FileActions.actions, "user", userToDelete.FullName);
                     }
                 }
             }
@@ -364,6 +366,8 @@ namespace MedicalInstitution.ViewModel
                         context.SaveChanges();
 
                         MaintanceList = GetAllMaintance();
+
+                        FileActions.FileActions.Instance.Deleting(FileActions.FileActions.path, FileActions.FileActions.actions, "maintance", "admin");
                     }
                 }
             }
@@ -488,6 +492,8 @@ namespace MedicalInstitution.ViewModel
                         context.SaveChanges();
 
                         ManagerList = GetAllManager();
+
+                        FileActions.FileActions.Instance.Deleting(FileActions.FileActions.path, FileActions.FileActions.actions, "manager", user.FullName);
                     }
                 }
             }

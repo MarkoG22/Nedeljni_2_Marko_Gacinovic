@@ -92,6 +92,8 @@ namespace MedicalInstitution.ViewModel
 
                     context.SaveChanges();
 
+                    FileActions.FileActions.Instance.Editing(FileActions.FileActions.path, FileActions.FileActions.actions, "hospital", "admin");
+
                     isUpdateHospital = true;
                 }
                 editHospitalView.Close();
