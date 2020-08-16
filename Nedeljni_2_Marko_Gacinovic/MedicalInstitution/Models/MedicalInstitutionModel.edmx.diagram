@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ea88a896260a48e0a40a295a1a503eb8" Name="Diagram1">
+        <EntityTypeShape EntityType="MedicalInstitutionModel.tblDoctor" Width="1.5" PointX="5.25" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalInstitutionModel.tblHospital" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalInstitutionModel.tblMaintance" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalInstitutionModel.tblManager" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalInstitutionModel.tblPatient" Width="1.5" PointX="7.5" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalInstitutionModel.tblShift" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalInstitutionModel.tblUser" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalInstitutionModel.vwDoctor" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalInstitutionModel.vwMaintance" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalInstitutionModel.vwManager" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicalInstitutionModel.vwPatient" Width="1.5" PointX="9.75" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="MedicalInstitutionModel.FK__tblDoctor__Manag__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicalInstitutionModel.FK__tblDoctor__Shift__6383C8BA" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicalInstitutionModel.FK__tblDoctor__UserI__619B8048" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicalInstitutionModel.FK__tblPatien__Docto__656C112C" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicalInstitutionModel.FK__tblMainta__UserI__5FB337D6" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicalInstitutionModel.FK__tblManage__UserI__60A75C0F" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicalInstitutionModel.FK__tblPatien__UserI__6477ECF3" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

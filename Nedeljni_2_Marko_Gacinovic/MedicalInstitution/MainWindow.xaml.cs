@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MedicalInstitution.Models;
+using MedicalInstitution.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,7 @@ namespace MedicalInstitution
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new MainWindowViewModel(this);
         }
     }
 }

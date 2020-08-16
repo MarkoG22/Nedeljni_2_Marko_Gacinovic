@@ -1,0 +1,16 @@
+﻿<Window x:Class="MedicalInstitution.View.CheckPatient"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MedicalInstitution.View"
+        mc:Ignorable="d"
+        Title="CheckPatient" Height="220" Width="800">
+    <Grid>
+        <ProgressBar x:Name="ProgressBar" Value="{Binding CurrentProgress, Mode=OneWay}" HorizontalAlignment="Left" Height="23" Margin="35,50,0,0" VerticalAlignment="Top" Width="712"/>
+        <Label x:Name="Percentage" HorizontalAlignment="Left" Margin="35,70,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.79,-0.5" Width="48" Height="26"/>
+        <Label x:Name="Message" HorizontalAlignment="Left" Margin="35,150,0,0" VerticalAlignment="Top" Width="468" Height="28"/>
+        <Button x:Name="Check" Content="Check" HorizontalAlignment="Left" Margin="175,105,0,0" VerticalAlignment="Top" Width="177" Height="44" Click="Button_Click" FontSize="20"/>
+        <Button x:Name="Cancel" Content="Cancel" HorizontalAlignment="Left" Margin="440,105,0,0" VerticalAlignment="Top" Width="177" Height="44" Click="Button_Click_1" FontSize="20"/>
+    </Grid>
+</Window>
