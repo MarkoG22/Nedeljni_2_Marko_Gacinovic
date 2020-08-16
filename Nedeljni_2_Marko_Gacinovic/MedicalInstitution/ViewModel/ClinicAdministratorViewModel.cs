@@ -104,7 +104,7 @@ namespace MedicalInstitution.ViewModel
         {
             get { return managerList; }
             set { managerList = value; OnPropertyChanged("ManagerList"); }
-        }
+        }       
         #endregion
 
         // constructor
@@ -315,12 +315,13 @@ namespace MedicalInstitution.ViewModel
         {
             try
             {
-                AddNewMaintanceView addMaintance = new AddNewMaintanceView(user);
+                AddNewMaintanceView addMaintance = new AddNewMaintanceView();
                 addMaintance.ShowDialog();
                 // updating the project list view
                 if ((addMaintance.DataContext as AddNewMaintanceViewModel).IsUpdateMaintance == true)
                 {
                     MaintanceList = GetAllMaintance();
+                    UserList = GetAllUser();
                 }
             }
             catch (Exception ex)
@@ -362,13 +363,17 @@ namespace MedicalInstitution.ViewModel
                     if (messageBoxResult == MessageBoxResult.Yes)
                     {
                         tblMaintance maintanceToDelete = (from x in context.tblMaintances where x.MaintanceID == id select x).First();
+                        tblUser userToDelete = (from y in context.tblUsers where y.UserId == maintance.UserID select y).First();
 
+                        
                         context.tblMaintances.Remove(maintanceToDelete);
+                        context.tblUsers.Remove(userToDelete);
                         context.SaveChanges();
 
                         MaintanceList = GetAllMaintance();
+                        userList = GetAllUser();
 
-                        FileActions.FileActions.Instance.Deleting(FileActions.FileActions.path, FileActions.FileActions.actions, "maintance", "admin");
+                        FileActions.FileActions.Instance.Deleting(FileActions.FileActions.path, FileActions.FileActions.actions, "maintance", userToDelete.FullName);
                     }
                 }
             }
@@ -409,6 +414,7 @@ namespace MedicalInstitution.ViewModel
                 if ((editMaintance.DataContext as EditMaintanceViewModel).IsUpdateMaintance == true)
                 {
                     MaintanceList = GetAllMaintance();
+                    userList = GetAllUser();
                 }
             }
             catch (Exception ex)
@@ -441,12 +447,13 @@ namespace MedicalInstitution.ViewModel
         {
             try
             {
-                AddManagerView addManager = new AddManagerView(user);
+                AddManagerView addManager = new AddManagerView();
                 addManager.ShowDialog();
                 // updating the project list view
                 if ((addManager.DataContext as AddNewManagerViewModel).IsUpdateManager == true)
                 {
                     ManagerList = GetAllManager().ToList();
+                    UserList = GetAllUser();
                 }
             }
             catch (Exception ex)
@@ -479,22 +486,23 @@ namespace MedicalInstitution.ViewModel
             try
             {
                 using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
-                {
-                    int id = manager.ManagerID;
-
+                {                    
                     // checking the action
                     MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to delete the manager?", "Delete Confirmation", MessageBoxButton.YesNo);
 
                     if (messageBoxResult == MessageBoxResult.Yes)
                     {
-                        tblManager managerToDelete = (from x in context.tblManagers where x.ManagerID == id select x).First();
+                        tblUser userToDelete = (from y in context.tblUsers where y.UserId == manager.UserID select y).First();
+                        tblManager managerToDelete = (from x in context.tblManagers where x.ManagerID == manager.ManagerID select x).First();
 
                         context.tblManagers.Remove(managerToDelete);
+                        context.tblUsers.Remove(userToDelete);
                         context.SaveChanges();
 
                         ManagerList = GetAllManager();
+                        UserList = GetAllUser();
 
-                        FileActions.FileActions.Instance.Deleting(FileActions.FileActions.path, FileActions.FileActions.actions, "manager", user.FullName);
+                        FileActions.FileActions.Instance.Deleting(FileActions.FileActions.path, FileActions.FileActions.actions, "manager", userToDelete.FullName);
                     }
                 }
             }
@@ -535,6 +543,7 @@ namespace MedicalInstitution.ViewModel
                 if ((editManager.DataContext as EditManagerViewModel).IsUpdateManager == true)
                 {
                     ManagerList = GetAllManager();
+                    UserList = GetAllUser();
                 }
             }
             catch (Exception ex)
@@ -567,7 +576,7 @@ namespace MedicalInstitution.ViewModel
         {
             try
             {
-                AddDoctorView addDoctor = new AddDoctorView(user);
+                AddDoctorView addDoctor = new AddDoctorView();
                 addDoctor.ShowDialog();
                 // updating the project list view
                 if ((addDoctor.DataContext as AddDoctorViewModel).IsUpdateDoctor == true)
@@ -605,22 +614,23 @@ namespace MedicalInstitution.ViewModel
             try
             {
                 using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
-                {
-                    int id = user.UserId;
-
+                {       
                     // checking the action
                     MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to delete the doctor?", "Delete Confirmation", MessageBoxButton.YesNo);
 
                     if (messageBoxResult == MessageBoxResult.Yes)
                     {
-                        tblDoctor doctorToDelete = (from x in context.tblDoctors where x.UserID == id select x).First();
-
+                        tblUser userToDelete = (from y in context.tblUsers where y.UserId == doctor.UserID select y).First();
+                        tblDoctor doctorToDelete = (from x in context.tblDoctors where x.DoctorID == doctor.DoctorID select x).First();
+                                                
                         context.tblDoctors.Remove(doctorToDelete);
+                        context.tblUsers.Remove(userToDelete);
                         context.SaveChanges();
 
                         DoctorList = GetAllDoctor();
+                        UserList = GetAllUser();
 
-                        FileActions.FileActions.Instance.Deleting(FileActions.FileActions.path, FileActions.FileActions.actions, "doctor", user.FullName);
+                        FileActions.FileActions.Instance.Deleting(FileActions.FileActions.path, FileActions.FileActions.actions, "doctor", userToDelete.FullName);
                     }
                 }
             }
@@ -656,11 +666,12 @@ namespace MedicalInstitution.ViewModel
         {
             try
             {
-                EditDoctorView editDoctor = new EditDoctorView(doctor);
+                EditDoctorView editDoctor = new EditDoctorView(doctor, user);
                 editDoctor.ShowDialog();
                 if ((editDoctor.DataContext as EditDoctorViewModel).IsUpdateDoctor == true)
                 {
                     DoctorList = GetAllDoctor().ToList();
+                    UserList = GetAllUser();
                 }
             }
             catch (Exception ex)

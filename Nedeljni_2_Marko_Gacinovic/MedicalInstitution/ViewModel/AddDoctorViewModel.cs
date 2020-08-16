@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -44,6 +45,13 @@ namespace MedicalInstitution.ViewModel
             set { shiftList = value; OnPropertyChanged("ShiftList"); }
         }
 
+        private bool isUpdateUser;
+        public bool IsUpdateUser
+        {
+            get { return isUpdateUser; }
+            set { isUpdateUser = value; }
+        }
+
         private bool isUpdateDoctor;
         public bool IsUpdateDoctor
         {
@@ -51,10 +59,10 @@ namespace MedicalInstitution.ViewModel
             set { isUpdateDoctor = value; }
         }
 
-        public AddDoctorViewModel(AddDoctorView addDoctorOpen, tblUser userToPass)
+        public AddDoctorViewModel(AddDoctorView addDoctorOpen)
         {
             addDoctor = addDoctorOpen;
-            user = userToPass;
+            user = new tblUser();
             doctor = new tblDoctor();
             ShiftList = GetAllShift();
         }
@@ -75,7 +83,17 @@ namespace MedicalInstitution.ViewModel
 
         private bool CanSaveExecute()
         {
-            return true;
+            if (String.IsNullOrEmpty(user.FullName) || String.IsNullOrEmpty(user.IdCard)
+                            || String.IsNullOrEmpty(user.Gender) || String.IsNullOrEmpty(user.Citizenship)
+                            || String.IsNullOrEmpty(user.Username) || String.IsNullOrEmpty(user.Pasword)
+                            || !user.Citizenship.All(Char.IsLetter))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         private void SaveExecute()
@@ -84,7 +102,41 @@ namespace MedicalInstitution.ViewModel
             {
                 using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
                 {
+                    MessageBox.Show("Please create manager first, thank you.");
+
                     tblDoctor newDoctor = new tblDoctor();
+                    tblUser newUser = new tblUser();
+
+                    newUser.FullName = user.FullName;
+                    newUser.IdCard = user.IdCard;
+
+                    string sex = user.Gender.ToUpper();
+
+                    // gender validation
+                    if ((sex == "M" || sex == "Z" || sex == "X" || sex == "N"))
+                    {
+                        newUser.Gender = sex;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Wrong Gender input, please enter M, Z, X or N.");
+                    }
+
+                    newUser.Birthdate = user.Birthdate;
+                    newUser.Citizenship = user.Citizenship;
+                    newUser.Manager = false;
+                    newUser.Username = user.Username;                    
+
+                    if (PasswordValidation(user.Pasword))
+                    {
+                        newUser.Pasword = user.Pasword;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Wrong password. Password must have at least 8 characters.\n(1 upper char, 1 lower char, 1 number and 1 special char)\nPlease try again.");
+                    }
+
+                    newUser.UserId = user.UserId;                    
 
                     newDoctor.Department = doctor.Department;
                     newDoctor.UniqueNumber = doctor.UniqueNumber;
@@ -95,11 +147,9 @@ namespace MedicalInstitution.ViewModel
                     newDoctor.DoctorID = doctor.DoctorID;
                     newDoctor.UserID = user.UserId;
 
-                    int userID = newDoctor.UserID;
+                    int id = user.UserId;
 
-                    tblUser viaUser = (from y in context.tblUsers where y.UserId == userID select y).First();
-
-                    tblManager manager = (from x in context.tblManagers where x.UserID == viaUser.UserId select x).First();
+                    tblManager manager = (from x in context.tblManagers where x.UserID == id select x).First();
 
                     if (manager.MaxDoctors > 0)
                     {
@@ -107,14 +157,16 @@ namespace MedicalInstitution.ViewModel
                     }
                     else
                     {
-                        MessageBox.Show("Sorry, the manager can not monitor this doctor because of maximum doctors monitoring number.");
+                        MessageBox.Show("Sorry, the manager can not monitor this doctor because of maximum doctors monitoring number.");                        
                     }
 
+                    context.tblUsers.Add(newUser);
                     context.tblDoctors.Add(newDoctor);
-                    context.SaveChanges();                   
+                    context.SaveChanges();
+                    
+                    FileActions.FileActions.Instance.Editing(FileActions.FileActions.path, FileActions.FileActions.actions, "doctor", newUser.FullName);
 
-                    FileActions.FileActions.Instance.Editing(FileActions.FileActions.path, FileActions.FileActions.actions, "manager", viaUser.FullName);
-
+                    IsUpdateUser = true;
                     IsUpdateDoctor = true;
                 }
                 addDoctor.Close();
@@ -174,6 +226,22 @@ namespace MedicalInstitution.ViewModel
             {
                 System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
                 return null;
+            }
+        }
+
+        private bool PasswordValidation(string password)
+        {
+            Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$");
+
+            bool isValidated = regex.IsMatch(password);
+
+            if (isValidated)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -68,9 +69,42 @@ namespace MedicalInstitution.ViewModel
             {
                 using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
                 {
-                    int id = maintance.MaintanceID;
+                    
+                    tblUser newUser = (from x in context.tblUsers where x.UserId == maintance.UserID select x).First();
+                    tblMaintance maintanceToEdit = (from x in context.tblMaintances where x.MaintanceID == maintance.MaintanceID select x).First();
 
-                    tblMaintance maintanceToEdit = (from x in context.tblMaintances where x.MaintanceID == id select x).First();
+                    newUser.FullName = user.FullName;
+                    newUser.IdCard = user.IdCard;
+
+                    string sex = user.Gender.ToUpper();
+
+                    // gender validation
+                    if ((sex == "M" || sex == "Z" || sex == "X" || sex == "N"))
+                    {
+                        newUser.Gender = sex;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Wrong Gender input, please enter M, Z, X or N.");
+                    }
+
+                    newUser.Birthdate = user.Birthdate;
+                    newUser.Citizenship = user.Citizenship;
+                    newUser.Manager = false;
+                    newUser.Username = user.Username;
+
+
+                    if (PasswordValidation(user.Pasword))
+                    {
+                        newUser.Pasword = user.Pasword;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Wrong password. Password must have at least 8 characters.\n(1 upper char, 1 lower char, 1 number and 1 special char)\nPlease try again.");
+                    }
+
+
+                    newUser.UserId = user.UserId;
 
                     maintanceToEdit.GrowPermision = maintance.GrowPermision;
                     maintanceToEdit.InvalidDuty = maintance.InvalidDuty;
@@ -83,14 +117,13 @@ namespace MedicalInstitution.ViewModel
                     {
                         maintanceToEdit.AmbulanceDuty = true;
                     }
-
-                    tblUser viaUser = (from x in context.tblUsers where x.UserId == maintance.UserID select x).First();
-                    maintanceToEdit.UserID = viaUser.UserId;
+                    
+                    maintanceToEdit.UserID = user.UserId;
                     maintanceToEdit.MaintanceID = maintance.MaintanceID;
                     
                     context.SaveChanges();
 
-                    FileActions.FileActions.Instance.Editing(FileActions.FileActions.path, FileActions.FileActions.actions, "maintance", viaUser.FullName);
+                    FileActions.FileActions.Instance.Editing(FileActions.FileActions.path, FileActions.FileActions.actions, "maintance", user.FullName);
 
                     IsUpdateMaintance = true;
                 }
@@ -134,6 +167,22 @@ namespace MedicalInstitution.ViewModel
         private bool CanCloseExecute()
         {
             return true;
+        }
+
+        private bool PasswordValidation(string password)
+        {
+            Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$");
+
+            bool isValidated = regex.IsMatch(password);
+
+            if (isValidated)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

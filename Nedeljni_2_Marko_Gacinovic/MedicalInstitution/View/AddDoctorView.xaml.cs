@@ -22,15 +22,21 @@ namespace MedicalInstitution.View
     /// </summary>
     public partial class AddDoctorView : Window
     {
-        public AddDoctorView(tblUser user)
+        public AddDoctorView()
         {
             InitializeComponent();
-            this.DataContext = new AddDoctorViewModel(this, user);
+            this.DataContext = new AddDoctorViewModel(this);
         }
 
         private void NumbersTextBox(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void LettersValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^a-zA-Z ]+");
             e.Handled = regex.IsMatch(e.Text);
         }
     }

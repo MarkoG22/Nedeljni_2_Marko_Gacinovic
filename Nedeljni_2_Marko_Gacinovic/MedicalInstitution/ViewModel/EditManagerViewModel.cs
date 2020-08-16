@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -14,6 +15,21 @@ namespace MedicalInstitution.ViewModel
     class EditManagerViewModel : ViewModelBase
     {
         EditManagerView editManager;
+
+        // properties
+        private tblUser user;
+        public tblUser User
+        {
+            get { return user; }
+            set { user = value; OnPropertyChanged("User"); }
+        }        
+
+        private bool isUpdateUser;
+        public bool IsUpdateUser
+        {
+            get { return isUpdateUser; }
+            set { isUpdateUser = value; }
+        }
 
         private tblManager manager;
         public tblManager Manager
@@ -30,9 +46,10 @@ namespace MedicalInstitution.ViewModel
         }
 
         public EditManagerViewModel(EditManagerView editManagerOpen, tblManager managerToPass)
-        {
-            manager = managerToPass;
+        {     
             editManager = editManagerOpen;
+            manager = managerToPass;
+            
         }
 
         // commands
@@ -60,9 +77,43 @@ namespace MedicalInstitution.ViewModel
             {
                 using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
                 {
-                    int id = manager.ManagerID;
+                    int id = manager.UserID;
+                    tblUser newUser = (from x in context.tblUsers where x.UserId == id select x).First();
+                    tblManager managerToEdit = (from x in context.tblManagers where x.UserID == id select x).First(); 
 
-                    tblManager managerToEdit = (from x in context.tblManagers where x.ManagerID == id select x).First();
+                    newUser.FullName = user.FullName;
+                    newUser.IdCard = user.IdCard;
+
+                    string sex = user.Gender.ToUpper();
+
+                    // gender validation
+                    if ((sex == "M" || sex == "Z" || sex == "X" || sex == "N"))
+                    {
+                        newUser.Gender = sex;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Wrong Gender input, please enter M, Z, X or N.");
+                    }
+
+                    newUser.Birthdate = user.Birthdate;
+                    newUser.Citizenship = user.Citizenship;
+                    newUser.Manager = false;
+                    newUser.Username = user.Username;
+                    
+
+                    if (PasswordValidation(user.Pasword))
+                    {
+                        newUser.Pasword = user.Pasword;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Wrong password. Password must have at least 8 characters.\n(1 upper char, 1 lower char, 1 number and 1 special char)\nPlease try again.");
+                    }
+
+
+                    newUser.UserId = user.UserId;
+
 
                     if (manager.Erors == null)
                     {
@@ -95,17 +146,14 @@ namespace MedicalInstitution.ViewModel
                     }
 
                     managerToEdit.ManagerID = manager.ManagerID;
-                    managerToEdit.UserID = manager.UserID;
+                    managerToEdit.UserID = newUser.UserId;
 
-                    context.SaveChanges();
-
-                    int userID = manager.UserID;
-
-                    tblUser user = (from y in context.tblUsers where y.UserId == userID select y).First();
+                    context.SaveChanges();   
 
                     FileActions.FileActions.Instance.Editing(FileActions.FileActions.path, FileActions.FileActions.actions, "manager", user.FullName);
 
                     IsUpdateManager = true;
+                    IsUpdateUser = true;
                 }
                 editManager.Close();
             }
@@ -147,6 +195,22 @@ namespace MedicalInstitution.ViewModel
         private bool CanCloseExecute()
         {
             return true;
+        }
+
+        private bool PasswordValidation(string password)
+        {
+            Regex regex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$");
+
+            bool isValidated = regex.IsMatch(password);
+
+            if (isValidated)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

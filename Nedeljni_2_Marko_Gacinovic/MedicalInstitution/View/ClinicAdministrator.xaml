@@ -140,7 +140,7 @@
         </StackPanel>
         <Grid Grid.Column="1" Grid.Row="6" Height="auto" Width="auto">
             <DataGrid Name="DataGridManagers" ItemsSource="{Binding ManagerList, UpdateSourceTrigger=PropertyChanged}"
-                      SelectedItem="{Binding Manager, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
+                      SelectedItem="{Binding vwManager, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
                       AutoGenerateColumns="False"
                       HorizontalGridLinesBrush="Black" BorderBrush="Black" Foreground="Black"
                       FontWeight="Bold" Margin="20">

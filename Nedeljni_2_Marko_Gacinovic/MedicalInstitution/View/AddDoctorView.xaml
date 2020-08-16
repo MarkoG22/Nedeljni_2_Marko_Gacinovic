@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MedicalInstitution.View"
         mc:Ignorable="d"
-        Title="AddDoctorView" Height="300" Width="400">
+        Title="AddDoctorView" Height="400" Width="400">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -39,27 +39,52 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="6"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="20"/>
-        </Grid.RowDefinitions>        
-        <Label Grid.Column="1" Grid.Row="3" Name="lblDepartment" Content="Department: " Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="1" Grid.Row="5" Name="lblUniqueNumber" Content="Unique number: " Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="1" Grid.Row="7" Name="lblAccountNumber" Content="Account number: " Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="1" Grid.Row="9" Name="lblShift" Content="Shift: " Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="1" Grid.Row="11" Name="lblReception" Content="Reception: " Padding="0" HorizontalAlignment="Right"/>
-        <TextBox Grid.Column="3" Grid.Row="3" Name="txtDepartment" Height="20" Width="150"
+        </Grid.RowDefinitions>
+        <Label Grid.Column="1" Grid.Row="1" Name="lblFullName" Content="Full Name: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="3" Name="lblIdCard" Content="ID Card: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="5" Name="lblGender" Content="Gender (M/Z/X/N): " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="7" Name="lblBirthdate" Content="Birthdate: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="9" Name="lblCitizenshipe" Content="Citizenship: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="11" Name="lblUsername" Content="Username: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="13" Name="lblPassword" Content="Password: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="15" Name="lblDepartment" Content="Department: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="17" Name="lblUniqueNumber" Content="Unique number: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="19" Name="lblAccountNumber" Content="Account number: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="21" Name="lblShift" Content="Shift: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="23" Name="lblReception" Content="Reception: " Padding="0" HorizontalAlignment="Right"/>
+        <TextBox Grid.Column="3" Grid.Row="1" Name="txtFullName" Height="20" Width="150" PreviewTextInput="LettersValidationTextBox"
+                 Text="{Binding User.FullName, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="3" Grid.Row="3" Name="txtIdCard" Height="20" Width="150"
+                 Text="{Binding User.IdCard, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="3" Grid.Row="5" Name="txtGender" Height="20" Width="150"
+                 Text="{Binding User.Gender, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
+        <DatePicker Grid.Column="3" Grid.Row="7" Name="DatePicker1" Height="20" Width="150" DisplayDate="1/1/20" DisplayDateEnd="11/8/20"
+                 SelectedDate="{Binding User.Birthdate, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="3" Grid.Row="9" Name="txtCitizenship" Height="20" Width="150" 
+                 Text="{Binding User.Citizenship, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
+        <TextBox Grid.Column="3" Grid.Row="11" Name="txtUsername" Height="20" Width="150" 
+                 Text="{Binding User.Username, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
+        <TextBox Grid.Column="3" Grid.Row="13" Name="txtUserPassword" Height="20" Width="150" 
+                 Text="{Binding User.Pasword, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
+        <TextBox Grid.Column="3" Grid.Row="15" Name="txtDepartment" Height="20" Width="150"
                  Text="{Binding Doctor.Department, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox Grid.Column="3" Grid.Row="5" Name="txtUniqueNumber" Height="20" Width="150" PreviewTextInput="NumbersTextBox"
+        <TextBox Grid.Column="3" Grid.Row="17" Name="txtUniqueNumber" Height="20" Width="150" PreviewTextInput="NumbersTextBox"
                  Text="{Binding Doctor.UniqueNumber, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBox Grid.Column="3" Grid.Row="7" Name="txtAccountNumber" Height="20" Width="150" PreviewTextInput="NumbersTextBox"
+        <TextBox Grid.Column="3" Grid.Row="19" Name="txtAccountNumber" Height="20" Width="150" PreviewTextInput="NumbersTextBox"
                  Text="{Binding Doctor.AccountNumber, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
-        <ComboBox Grid.Column="3" Grid.Row="9" Name="txtShift" Height="20" Width="150" DisplayMemberPath="ShiftName"
+        <ComboBox Grid.Column="3" Grid.Row="21" Name="txtShift" Height="20" Width="150" DisplayMemberPath="ShiftName"
                  ItemsSource="{Binding ShiftList, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding Shift, UpdateSourceTrigger=PropertyChanged}"/>
-        <CheckBox Grid.Column="3" Grid.Row="11" Name="cbReception" Height="20" Width="150"
+        <CheckBox Grid.Column="3" Grid.Row="23" Name="cbReception" Height="20" Width="150"
                   IsChecked="{Binding Doctor.Reception, UpdateSourceTrigger=PropertyChanged}"/>
-        <Button Grid.Column="3" Grid.Row="21" Name="btnSave" Content="Save" Height="20" Width="70" HorizontalAlignment="Left"
+        <Button Grid.Column="3" Grid.Row="27" Name="btnSave" Content="Save" Height="20" Width="70" HorizontalAlignment="Left"
                 Command="{Binding Save, UpdateSourceTrigger=PropertyChanged}"/>
-        <Button Grid.Column="3" Grid.Row="21" Name="btnClose" Content="Close" Height="20" Width="70" HorizontalAlignment="Right"
+        <Button Grid.Column="3" Grid.Row="27" Name="btnClose" Content="Close" Height="20" Width="70" HorizontalAlignment="Right"
                 Command="{Binding Close, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>

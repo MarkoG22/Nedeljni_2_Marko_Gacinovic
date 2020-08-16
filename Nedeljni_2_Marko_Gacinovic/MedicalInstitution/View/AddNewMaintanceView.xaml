@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MedicalInstitution.View"
         mc:Ignorable="d"
-        Title="AddNewMaintanceView" Height="250" Width="400">
+        Title="AddNewMaintanceView" Height="350" Width="400">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -49,14 +49,33 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        <Label Grid.Column="1" Grid.Row="1" Name="lblGrowPermision" Content="Grow Permision: " Padding="0" HorizontalAlignment="Right"/>
-        <Label Grid.Column="1" Grid.Row="3" Name="lblInvalidDuty" Content="Invalid Duty: " Padding="0" HorizontalAlignment="Right"/>        
-        
-        <CheckBox Grid.Column="3" Grid.Row="1" Name="cbGrowPermision" Height="20" Width="150"
+        <Label Grid.Column="1" Grid.Row="1" Name="lblFullName" Content="Full Name: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="3" Name="lblIdCard" Content="ID Card: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="5" Name="lblGender" Content="Gender (M/Z/X/N): " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="7" Name="lblBirthdate" Content="Birthdate: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="9" Name="lblCitizenshipe" Content="Citizenship: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="11" Name="lblUsername" Content="Username: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="13" Name="lblPassword" Content="Password: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="15" Name="lblGrowPermision" Content="Grow Permision: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="17" Name="lblInvalidDuty" Content="Invalid Duty: " Padding="0" HorizontalAlignment="Right"/>
+        <TextBox Grid.Column="3" Grid.Row="1" Name="txtFullName" Height="20" Width="150" PreviewTextInput="LettersValidationTextBox"
+                 Text="{Binding User.FullName, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="3" Grid.Row="3" Name="txtIdCard" Height="20" Width="150"
+                 Text="{Binding User.IdCard, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="3" Grid.Row="5" Name="txtGender" Height="20" Width="150"
+                 Text="{Binding User.Gender, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
+        <DatePicker Grid.Column="3" Grid.Row="7" Name="DatePicker1" Height="20" Width="150" DisplayDate="1/1/20" DisplayDateEnd="11/8/20"
+                 SelectedDate="{Binding User.Birthdate, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Column="3" Grid.Row="9" Name="txtCitizenship" Height="20" Width="150" 
+                 Text="{Binding User.Citizenship, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
+        <TextBox Grid.Column="3" Grid.Row="11" Name="txtUsername" Height="20" Width="150" 
+                 Text="{Binding User.Username, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
+        <TextBox Grid.Column="3" Grid.Row="13" Name="txtUserPassword" Height="20" Width="150" 
+                 Text="{Binding User.Pasword, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
+        <CheckBox Grid.Column="3" Grid.Row="15" Name="cbGrowPermision" Height="20" Width="150"
                   IsChecked="{Binding Maintance.GrowPermision, UpdateSourceTrigger=PropertyChanged}"/>
-        <CheckBox Grid.Column="3" Grid.Row="3" Name="cbInvalidDuty" Height="20" Width="150"
-                  IsChecked="{Binding Maintance.InvalidDuty, UpdateSourceTrigger=PropertyChanged}"/>
-        
+        <CheckBox Grid.Column="3" Grid.Row="17" Name="cbInvalidDuty" Height="20" Width="150"
+                  IsChecked="{Binding Maintance.InvalidDuty, UpdateSourceTrigger=PropertyChanged}"/>        
         <Button Grid.Column="3" Grid.Row="19" Name="btnSave" Content="Save" Height="20" Width="70" HorizontalAlignment="Left"
                 Command="{Binding Save, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Grid.Column="3" Grid.Row="19" Name="btnClose" Content="Close" Height="20" Width="70" HorizontalAlignment="Right"
