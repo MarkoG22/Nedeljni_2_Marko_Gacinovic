@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MedicalInstitution.View"
         mc:Ignorable="d"
-        Title="AddDoctorView" Height="350" Width="400">
+        Title="AddDoctorView" Height="300" Width="400">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>

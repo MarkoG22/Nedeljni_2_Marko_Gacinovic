@@ -1,7 +1,10 @@
-﻿using System;
+﻿using MedicalInstitution.Models;
+using MedicalInstitution.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,9 +22,16 @@ namespace MedicalInstitution.View
     /// </summary>
     public partial class EditDoctorView : Window
     {
-        public EditDoctorView()
+        public EditDoctorView(tblDoctor doctor)
         {
             InitializeComponent();
+            this.DataContext = new EditDoctorViewModel(this, doctor);
+        }
+
+        private void NumbersTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }

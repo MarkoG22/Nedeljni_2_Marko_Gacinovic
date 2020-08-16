@@ -21,10 +21,10 @@ namespace MedicalInstitution.View
     /// </summary>
     public partial class ClinicAdministrator : Window
     {
-        public ClinicAdministrator(tblUser user, tblManager manager)
+        public ClinicAdministrator(tblUser user, tblManager manager, tblDoctor doctor)
         {
             InitializeComponent();
-            this.DataContext = new ClinicAdministratorViewModel(this, user, manager);
+            this.DataContext = new ClinicAdministratorViewModel(this, user, manager, doctor);
         }
     }
 }

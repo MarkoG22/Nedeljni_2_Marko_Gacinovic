@@ -108,11 +108,12 @@ namespace MedicalInstitution.ViewModel
         #endregion
 
         // constructor
-        public ClinicAdministratorViewModel(ClinicAdministrator adminOpen, tblUser userToPass, tblManager managerToPass)
+        public ClinicAdministratorViewModel(ClinicAdministrator adminOpen, tblUser userToPass, tblManager managerToPass, tblDoctor doctorToPass)
         {            
             clinicAdministrator = adminOpen;
             user = userToPass;
             manager = managerToPass;
+            doctor = doctorToPass;
 
             UserList = GetAllUser();
             HospitalList = GetAllHospital();
@@ -570,6 +571,94 @@ namespace MedicalInstitution.ViewModel
                 addDoctor.ShowDialog();
                 // updating the project list view
                 if ((addDoctor.DataContext as AddDoctorViewModel).IsUpdateDoctor == true)
+                {
+                    DoctorList = GetAllDoctor().ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+            }
+        }
+
+        private ICommand deleteDoctor;
+        public ICommand DeleteDoctor
+        {
+            get
+            {
+                if (deleteDoctor == null)
+                {
+                    deleteDoctor = new RelayCommand(param => DeleteDoctorExecute(), param => CanDeleteDoctorExecute());
+                }
+                return deleteDoctor;
+            }
+
+        }
+
+        private bool CanDeleteDoctorExecute()
+        {
+            return true;
+        }
+
+        private void DeleteDoctorExecute()
+        {
+            try
+            {
+                using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
+                {
+                    int id = user.UserId;
+
+                    // checking the action
+                    MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to delete the doctor?", "Delete Confirmation", MessageBoxButton.YesNo);
+
+                    if (messageBoxResult == MessageBoxResult.Yes)
+                    {
+                        tblDoctor doctorToDelete = (from x in context.tblDoctors where x.UserID == id select x).First();
+
+                        context.tblDoctors.Remove(doctorToDelete);
+                        context.SaveChanges();
+
+                        DoctorList = GetAllDoctor();
+
+                        FileActions.FileActions.Instance.Deleting(FileActions.FileActions.path, FileActions.FileActions.actions, "doctor", user.FullName);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Sorry, the doctor can not be deleted.");
+            }
+        }
+
+        // command for editing the user
+        private ICommand editDoctor;
+        public ICommand EditDoctor
+        {
+            get
+            {
+                if (editDoctor == null)
+                {
+                    editDoctor = new RelayCommand(param => EditDoctorExecute(), param => CanEditDoctorExecute());
+                }
+                return editDoctor;
+            }
+        }
+
+        private bool CanEditDoctorExecute()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// method for opening the view for the editing user
+        /// </summary>
+        private void EditDoctorExecute()
+        {
+            try
+            {
+                EditDoctorView editDoctor = new EditDoctorView(doctor);
+                editDoctor.ShowDialog();
+                if ((editDoctor.DataContext as EditDoctorViewModel).IsUpdateDoctor == true)
                 {
                     DoctorList = GetAllDoctor().ToList();
                 }

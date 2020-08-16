@@ -9,3 +9,12 @@
 16.08.2020 2:17:51 PM - edited manager: Marko Gacinovic
 16.08.2020 2:18:00 PM - edited manager: Marko Gacinovic
 16.08.2020 2:18:09 PM - edited manager: Marko Gacinovic
+16.08.2020 2:41:38 PM - created maintance: Marko Gacinovic
+16.08.2020 2:41:42 PM - created maintance: Marko Gacinovic
+16.08.2020 2:41:44 PM - created maintance: Marko Gacinovic
+16.08.2020 2:42:37 PM - edited doctor: Marko Gacinovic
+16.08.2020 2:42:38 PM - edited doctor: Marko Gacinovic
+16.08.2020 2:42:44 PM - deleted doctor: Marko Gacinovic
+16.08.2020 2:42:47 PM - deleted doctor: Marko Gacinovic
+16.08.2020 2:47:42 PM - edited doctor: Marko Gacinovic
+16.08.2020 2:47:47 PM - deleted doctor: Marko Gacinovic

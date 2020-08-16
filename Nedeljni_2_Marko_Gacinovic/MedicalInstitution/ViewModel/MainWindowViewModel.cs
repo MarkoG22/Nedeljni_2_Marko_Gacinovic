@@ -53,6 +53,13 @@ namespace MedicalInstitution.ViewModel
             get { return manager; }
             set { manager = value; OnPropertyChanged("Manager"); }
         }
+
+        private tblDoctor doctor;
+        public tblDoctor Doctor
+        {
+            get { return doctor; }
+            set { doctor = value; OnPropertyChanged("Doctor"); }
+        }
         #endregion
 
         // constructor
@@ -105,7 +112,7 @@ namespace MedicalInstitution.ViewModel
                             hospital.ShowDialog();
                             user.LoggedIn = true;
                         }
-                        ClinicAdministrator admin = new ClinicAdministrator(user, manager);
+                        ClinicAdministrator admin = new ClinicAdministrator(user, manager, doctor);
                         admin.ShowDialog();
                     }
                 }
