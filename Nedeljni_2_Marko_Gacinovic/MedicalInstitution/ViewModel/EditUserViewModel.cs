@@ -31,10 +31,18 @@ namespace MedicalInstitution.ViewModel
             set { isUpdateUser = value; }
         }
 
-        public EditUserViewModel(EditUserView editUserOpen, tblUser userToPass)
+        private tblPatient patient;
+        public tblPatient Patient
+        {
+            get { return patient; }
+            set { patient = value; OnPropertyChanged("Patient"); }
+        }
+
+        public EditUserViewModel(EditUserView editUserOpen, tblUser userToPass, tblPatient patientToPass)
         {
             editUser = editUserOpen;
             user = userToPass;
+            patient = patientToPass;
         }
 
         // commands
@@ -60,6 +68,7 @@ namespace MedicalInstitution.ViewModel
                     int id = user.UserId;
 
                     tblUser newUser = (from x in context.tblUsers where x.UserId == id select x).First();
+                    tblPatient newPatient = (from y in context.tblPatients where y.UserID == id select y).First();
 
                     newUser.FullName = user.FullName;
                     newUser.IdCard = user.IdCard;
@@ -91,12 +100,17 @@ namespace MedicalInstitution.ViewModel
                         MessageBox.Show("Wrong password. Password must have at least 8 characters.\n(1 upper char, 1 lower char, 1 number and 1 special char)\nPlease try again.");
                     }
 
-
                     user.UserId = newUser.UserId;
-                                        
+
+                    newPatient.CardNumber = patient.CardNumber;
+                    newPatient.DateExpire = DateTime.Now.AddYears(2);
+                    newPatient.PatientID = patient.PatientID;
+                    newPatient.UserID = newUser.UserId;
+
+                    context.tblPatients.Add(newPatient);
                     context.SaveChanges();
 
-                    FileActions.FileActions.Instance.Editing(FileActions.FileActions.path, FileActions.FileActions.actions, "user", newUser.FullName);
+                    FileActions.FileActions.Instance.Editing(FileActions.FileActions.path, FileActions.FileActions.actions, "patient", newUser.FullName);
 
                     IsUpdateUser = true;
                 }

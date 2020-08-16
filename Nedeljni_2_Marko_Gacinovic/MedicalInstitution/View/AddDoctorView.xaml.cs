@@ -22,10 +22,10 @@ namespace MedicalInstitution.View
     /// </summary>
     public partial class AddDoctorView : Window
     {
-        public AddDoctorView()
+        public AddDoctorView(vwManager manager)
         {
             InitializeComponent();
-            this.DataContext = new AddDoctorViewModel(this);
+            this.DataContext = new AddDoctorViewModel(this, manager);
         }
 
         private void NumbersTextBox(object sender, TextCompositionEventArgs e)

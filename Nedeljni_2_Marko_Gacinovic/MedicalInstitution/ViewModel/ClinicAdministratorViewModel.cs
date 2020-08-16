@@ -99,6 +99,14 @@ namespace MedicalInstitution.ViewModel
             set { manager = value; OnPropertyChanged("Manager"); }
         }
 
+        private vwManager vwManager;
+        public vwManager VwManager
+        {
+            get { return vwManager; }
+            set { vwManager = value; }
+        }
+
+
         private List<tblManager> managerList;
         public List<tblManager> ManagerList
         {
@@ -108,12 +116,13 @@ namespace MedicalInstitution.ViewModel
         #endregion
 
         // constructor
-        public ClinicAdministratorViewModel(ClinicAdministrator adminOpen, tblUser userToPass, tblManager managerToPass, tblDoctor doctorToPass)
+        public ClinicAdministratorViewModel(ClinicAdministrator adminOpen, tblUser userToPass, tblManager managerToPass, tblDoctor doctorToPass, tblPatient patientToPass)
         {            
             clinicAdministrator = adminOpen;
             user = userToPass;
             manager = managerToPass;
             doctor = doctorToPass;
+            patient = patientToPass;
 
             UserList = GetAllUser();
             HospitalList = GetAllHospital();
@@ -123,7 +132,7 @@ namespace MedicalInstitution.ViewModel
             ManagerList = GetAllManager();
         }
 
-        #region User
+        #region Patient
         // commands
         private ICommand addNewUser;
         public ICommand AddNewUser
@@ -152,6 +161,7 @@ namespace MedicalInstitution.ViewModel
                 // updating the project list view
                 if ((addUser.DataContext as AddUserViewModel).IsUpdateUser == true)
                 {
+                    PatientList = GetAllPatient();
                     UserList = GetAllUser().ToList();
                 }
             }
@@ -185,19 +195,20 @@ namespace MedicalInstitution.ViewModel
             try
             {
                 using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
-                {
-                    int id = user.UserId;
-
+                {   
                     // checking the action
                     MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to delete the user?", "Delete Confirmation", MessageBoxButton.YesNo);
 
                     if (messageBoxResult == MessageBoxResult.Yes)
                     {
-                        tblUser userToDelete = (from x in context.tblUsers where x.UserId == id select x).First();
+                        tblUser userToDelete = (from y in context.tblUsers where y.UserId == patient.UserID select y).First();
+                        tblPatient patientToDelete = (from x in context.tblPatients where x.PatientID == patient.PatientID select x).First();
 
+                        context.tblPatients.Remove(patientToDelete);
                         context.tblUsers.Remove(userToDelete);
                         context.SaveChanges();
 
+                        PatientList = GetAllPatient();
                         UserList = GetAllUser();
 
                         FileActions.FileActions.Instance.Deleting(FileActions.FileActions.path, FileActions.FileActions.actions, "user", userToDelete.FullName);
@@ -206,7 +217,7 @@ namespace MedicalInstitution.ViewModel
             }
             catch (Exception)
             {
-                MessageBox.Show("Sorry, the user can not be deleted.");
+                MessageBox.Show("Sorry, the patient can not be deleted.");
             }
         }
 
@@ -236,10 +247,11 @@ namespace MedicalInstitution.ViewModel
         {
             try
             {
-                EditUserView editUser = new EditUserView(user);
+                EditUserView editUser = new EditUserView(user, patient);
                 editUser.ShowDialog();
                 if ((editUser.DataContext as EditUserViewModel).IsUpdateUser == true)
                 {
+                    PatientList = GetAllPatient();
                     UserList = GetAllUser().ToList();                    
                 }
             }
@@ -576,7 +588,7 @@ namespace MedicalInstitution.ViewModel
         {
             try
             {
-                AddDoctorView addDoctor = new AddDoctorView();
+                AddDoctorView addDoctor = new AddDoctorView(vwManager);
                 addDoctor.ShowDialog();
                 // updating the project list view
                 if ((addDoctor.DataContext as AddDoctorViewModel).IsUpdateDoctor == true)
@@ -799,7 +811,7 @@ namespace MedicalInstitution.ViewModel
                 System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
                 return null;
             }
-        }
+        }        
         #endregion
     }
 }

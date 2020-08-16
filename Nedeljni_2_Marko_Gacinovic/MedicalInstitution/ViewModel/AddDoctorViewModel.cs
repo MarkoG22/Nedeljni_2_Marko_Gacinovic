@@ -38,6 +38,14 @@ namespace MedicalInstitution.ViewModel
             set { shift = value; OnPropertyChanged("Shift"); }
         }
 
+        private vwManager manager;
+        public vwManager Manager
+        {
+            get { return manager; }
+            set { manager = value; }
+        }
+
+
         private List<tblShift> shiftList;
         public List<tblShift> ShiftList
         {
@@ -59,11 +67,12 @@ namespace MedicalInstitution.ViewModel
             set { isUpdateDoctor = value; }
         }
 
-        public AddDoctorViewModel(AddDoctorView addDoctorOpen)
+        public AddDoctorViewModel(AddDoctorView addDoctorOpen,vwManager viewManager)
         {
             addDoctor = addDoctorOpen;
             user = new tblUser();
             doctor = new tblDoctor();
+            manager = viewManager;
             ShiftList = GetAllShift();
         }
 
@@ -102,7 +111,7 @@ namespace MedicalInstitution.ViewModel
             {
                 using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
                 {
-                    MessageBox.Show("Please create manager first, thank you.");
+                    MessageBox.Show("If there is no managers, please create manager first. \nThank you.");
 
                     tblDoctor newDoctor = new tblDoctor();
                     tblUser newUser = new tblUser();
@@ -145,20 +154,16 @@ namespace MedicalInstitution.ViewModel
                     newDoctor.ShiftID = shift.ShiftID;
 
                     newDoctor.DoctorID = doctor.DoctorID;
-                    newDoctor.UserID = user.UserId;
+                    newDoctor.UserID = user.UserId;                    
 
-                    int id = user.UserId;
-
-                    tblManager manager = (from x in context.tblManagers where x.UserID == id select x).First();
-
-                    if (manager.MaxDoctors > 0)
-                    {
-                        newDoctor.ManagerID = manager.ManagerID;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Sorry, the manager can not monitor this doctor because of maximum doctors monitoring number.");                        
-                    }
+                    //if (manager.MaxDoctors > 0)
+                    //{
+                    //    newDoctor.ManagerID = manager.ManagerID;
+                    //}
+                    //else
+                    //{
+                    //    MessageBox.Show("Sorry, the manager can not monitor this doctor because of maximum doctors monitoring number.");                        
+                    //}
 
                     context.tblUsers.Add(newUser);
                     context.tblDoctors.Add(newDoctor);
@@ -169,6 +174,8 @@ namespace MedicalInstitution.ViewModel
                     IsUpdateUser = true;
                     IsUpdateDoctor = true;
                 }
+
+                MessageBox.Show("Doctor created succesfully.");
                 addDoctor.Close();
             }
             catch (Exception)

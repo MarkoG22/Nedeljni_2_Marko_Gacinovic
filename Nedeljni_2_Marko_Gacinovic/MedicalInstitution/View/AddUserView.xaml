@@ -49,6 +49,7 @@
         <Label Grid.Column="1" Grid.Row="9" Name="lblCitizenshipe" Content="Citizenship: " Padding="0" HorizontalAlignment="Right"/>
         <Label Grid.Column="1" Grid.Row="11" Name="lblUsername" Content="Username: " Padding="0" HorizontalAlignment="Right"/>
         <Label Grid.Column="1" Grid.Row="13" Name="lblPassword" Content="Password: " Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Grid.Row="15" Name="lblCardNumber" Content="Card number: " Padding="0" HorizontalAlignment="Right"/>
         <TextBox Grid.Column="3" Grid.Row="1" Name="txtFullName" Height="20" Width="150" PreviewTextInput="LettersValidationTextBox"
                  Text="{Binding User.FullName, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Column="3" Grid.Row="3" Name="txtIdCard" Height="20" Width="150"
@@ -63,6 +64,8 @@
                  Text="{Binding User.Username, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
         <TextBox Grid.Column="3" Grid.Row="13" Name="txtUserPassword" Height="20" Width="150" 
                  Text="{Binding User.Pasword, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"/>
+        <TextBox Grid.Column="3" Grid.Row="15" Name="txtCardNumber" Height="20" Width="150"
+                 Text="{Binding Patient.CardNumber, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Grid.Column="3" Grid.Row="21" Name="btnSave" Content="Save" Height="20" Width="70" HorizontalAlignment="Left"
                 Command="{Binding Save, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Grid.Column="3" Grid.Row="21" Name="btnClose" Content="Close" Height="20" Width="70" HorizontalAlignment="Right"

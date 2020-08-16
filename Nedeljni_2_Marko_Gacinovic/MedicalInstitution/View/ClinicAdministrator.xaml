@@ -66,11 +66,7 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-        </Grid>
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
-            <Button Width="100" Height="20" Name="btnAddUser" Content="Add New User"
-                    Command="{Binding AddNewUser, UpdateSourceTrigger=PropertyChanged}" Margin="20,4,4,4" FontWeight="Bold"/>
-        </StackPanel>
+        </Grid>        
         <Grid Grid.Column="1" Grid.Row="3" Height="auto" Width="auto">
             <DataGrid Name="DataGridHospitals" ItemsSource="{Binding HospitalList, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding Hospital, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
@@ -216,7 +212,44 @@
             <Button Width="100" Height="20" Name="btnAddDoctor" Content="Add New Doctor"
                     Command="{Binding AddNewDoctor, UpdateSourceTrigger=PropertyChanged}" Margin="20,4,4,4" FontWeight="Bold"/>
         </StackPanel>
-        </Grid>
+                <Grid Grid.Column="1" Grid.Row="11" Height="auto" Width="auto">
+                    <DataGrid Name="DataGridPatients" ItemsSource="{Binding PatientList, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding Patient, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
+                      AutoGenerateColumns="False"
+                      HorizontalGridLinesBrush="Black" BorderBrush="Black" Foreground="Black"
+                      FontWeight="Bold" Margin="20">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Patient ID" Binding="{Binding PatientID}"/>
+                            <DataGridTextColumn Header="User ID" Binding="{Binding UserID}"/>
+                            <DataGridTextColumn Header="CardNumber" Binding="{Binding CardNumber}"/>                           
+                            <DataGridTextColumn Header="Date Expire" Binding="{Binding DateExpire, StringFormat=dd/MM/yyyy}"/>
+                            <DataGridTextColumn Header="DoctorID" Binding="{Binding DoctorID}"/>                            
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Name="btnDeleteUser" Content="X" 
+                                Command="{Binding DataContext.DeleteUser, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        Margin="4" FontWeight="Bold"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Name="btnEditUser" Content="Edit" 
+                                Command="{Binding DataContext.EditUser, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        Margin="4" FontWeight="Bold"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+                <StackPanel Grid.Column="1" Grid.Row="12" Orientation="Horizontal">
+                    <Button Width="100" Height="20" Name="btnAddUser" Content="Add New Patient"
+                    Command="{Binding AddNewUser, UpdateSourceTrigger=PropertyChanged}" Margin="20,4,4,4" FontWeight="Bold"/>
+                </StackPanel>
+            </Grid>            
         </ScrollViewer>
     </Grid>
 </Window>

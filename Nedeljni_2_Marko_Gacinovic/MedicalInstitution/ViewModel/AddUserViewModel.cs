@@ -31,11 +31,20 @@ namespace MedicalInstitution.ViewModel
             set { isUpdateUser = value; }
         }
 
+        private tblPatient patient;
+        public tblPatient Patient
+        {
+            get { return patient; }
+            set { patient = value; OnPropertyChanged("Patient"); }
+        }
+
+
         // constructor
         public AddUserViewModel(AddUserView addUserOpen)
         {
             addUser = addUserOpen;
             user = new tblUser();
+            patient = new tblPatient();
         }
 
         // commands
@@ -59,6 +68,7 @@ namespace MedicalInstitution.ViewModel
                 using (MedicalInstitutionEntities context = new MedicalInstitutionEntities())
                 {
                     tblUser newUser = new tblUser();
+                    tblPatient newPatient = new tblPatient();
 
                     newUser.FullName = user.FullName;
                     newUser.IdCard = user.IdCard;
@@ -78,8 +88,7 @@ namespace MedicalInstitution.ViewModel
                     newUser.Birthdate = user.Birthdate;
                     newUser.Citizenship = user.Citizenship;
                     newUser.Manager = false;
-                    newUser.Username = user.Username;
-                    string pass = user.Pasword;
+                    newUser.Username = user.Username;                    
 
                     if (PasswordValidation(user.Pasword))
                     {
@@ -93,10 +102,16 @@ namespace MedicalInstitution.ViewModel
                     
                     newUser.UserId = user.UserId;
 
+                    newPatient.CardNumber = patient.CardNumber;
+                    newPatient.DateExpire = DateTime.Now.AddYears(2);
+                    newPatient.PatientID = patient.PatientID;
+                    newPatient.UserID = newUser.UserId;
+
+                    context.tblPatients.Add(newPatient);
                     context.tblUsers.Add(newUser);
                     context.SaveChanges();
 
-                    FileActions.FileActions.Instance.Adding(FileActions.FileActions.path, FileActions.FileActions.actions, "user", newUser.FullName);
+                    FileActions.FileActions.Instance.Adding(FileActions.FileActions.path, FileActions.FileActions.actions, "patient", newUser.FullName);
 
                     IsUpdateUser = true;
                 }

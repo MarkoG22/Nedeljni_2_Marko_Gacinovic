@@ -1,1 +1,10 @@
 16.08.2020 5:53:28 PM - created maintance: asd
+16.08.2020 6:20:06 PM - created patient: sadas
+16.08.2020 6:32:47 PM - created user: Marko Gacinovic
+16.08.2020 6:33:06 PM - created hospital: Marko Gacinovic
+16.08.2020 6:33:31 PM - created manager: Milan Bratic
+16.08.2020 6:37:40 PM - created user: Marko Gacinovic
+16.08.2020 6:37:54 PM - created hospital: Marko Gacinovic
+16.08.2020 6:38:17 PM - created manager: asd
+16.08.2020 7:00:52 PM - edited doctor: asd
+16.08.2020 7:19:40 PM - created patient: Jelena Popivic
